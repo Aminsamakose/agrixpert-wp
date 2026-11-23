@@ -32,7 +32,7 @@ Every other handler checked (CRM, marketplace admin, follow-ups, settings, the p
 
 ### File upload surface
 **Method:** grepped for `$_FILES`, `move_uploaded_file`, and `wp_handle_upload` across the codebase.
-**Result:** no custom file-upload handling exists anywhere in the plugin. The Insights feature takes a plain URL string; the Settings logo field uses WordPress's own built-in, already-hardened media-library picker. There is no custom upload-validation code to audit because none was written — this was a deliberate design choice (see `docs/ARCHITECTURE.md` §10), not an oversight.
+**Result:** no custom file-upload handling exists anywhere in the plugin. The Insights feature takes a plain URL string; the Settings logo field uses WordPress's own built-in, already-hardened media-library picker. There is no custom upload-validation code to audit because none was written — this was a deliberate design choice (see `docs/ARCHITECTURE.md` §11), not an oversight.
 
 ### PHP lint
 **Method:** `php -l` run against every `.php` file after every change in this phase.
@@ -53,6 +53,11 @@ Also re-verified with no issues found: `dbDelta()` formatting (the required doub
 **Result:** found a real, substantial gap, not just a documentation error. The live app has an entire logged-in self-service "Portal" page (`/portal`, ~1,100 lines) that had been missed when this rewrite was first scoped: a registered farmer/buyer/supplier/cooperative can check their own verification status, edit their own details, manage a cooperative's member roster, and leave a booking review. None of this existed in the WordPress plugin before this was caught. **Fixed**: added `[agrixpert_portal]` (see `includes/public/class-portal-shortcode.php`, `docs/ARCHITECTURE.md` §6), which wires up the two tables this uncovered as genuinely unused (`cooperative_members`, `listing_reviews` — confirmed active in the live app's source) while leaving two others (`chain_events`, `accountability_events`) alone, since those were confirmed unused in the live app too, not something this rewrite dropped.
 
 This is logged here, including the fact that it was missed on first pass, because an honest testing report should show not just what was checked but what checking turned up that an earlier claim ("every table has a working path") got wrong. The Portal is new code and has had the same static checks as everything else (ownership checks on every write, nonces, lint) but — like everything else in this plugin — no live test yet.
+
+### Real content migration and a second dead-table fix (2026-11-23)
+
+**Method:** per the brief, "real content" (the actual site copy, not placeholders) needed migrating from the live app before Phase 10. While doing that, the same "does any code actually read this table" check that found the Portal gap (Phase 9.5) was re-run against `page_content`, since it is the table reserved for exactly this kind of content and had not been checked directly before.
+**Result:** `page_content` had the identical problem `cooperative_members`/`listing_reviews` had — a real, schema-defined table with zero code anywhere touching it. Fixed by adding `includes/data/class-page-library.php` and `includes/public/class-page-library-shortcodes.php`, which load the actual migrated value-chain/solution copy (bundled as `data/value-chains.json`/`data/solutions.json`, ported from the live app's source, not invented) and merge any `page_content` override over it. Full detail in `docs/CONTENT-MIGRATION.md`. `php -l` clean on both new files. Not live-tested, for the same reason nothing else in this plugin has been: no WordPress install was reachable in this sandbox (see below).
 
 ## Live functional testing — NOT done
 

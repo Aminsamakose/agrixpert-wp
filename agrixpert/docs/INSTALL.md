@@ -52,8 +52,14 @@ The plugin provides shortcodes, not pre-built pages — this lets you place them
 | `[agrixpert_contact_form]` | General contact/enquiry form |
 | `[agrixpert_marketplace]` | Marketplace listings + post-a-listing form |
 | `[agrixpert_portal]` | Self-service "My Account" area for a logged-in registered farmer/buyer/supplier/cooperative: verification status, editable profile details, cooperative member roster, and booking reviews |
-| `[agrixpert_content key="hero_heading"]` | A single managed site-content value (see Site Content admin screen for available keys) |
+| `[agrixpert_content key="home.hero.title"]` | A single managed site-content value (see Site Content admin screen for available keys) |
 | `[agrixpert_insights]` | The Insights/articles grid |
+| `[agrixpert_value_chains]` | Grid of all 5 value-chain pages (Maize, Soybeans, Rice, Groundnuts, Vegetables) |
+| `[agrixpert_value_chain slug="maize"]` | Full detail page for one value chain |
+| `[agrixpert_solutions]` | Grid of all 6 solution pages |
+| `[agrixpert_solution slug="production-coordination"]` | Full detail page for one solution |
+
+The value-chain and solution shortcodes render real copy migrated from the live site (see `docs/CONTENT-MIGRATION.md`), not placeholder text — create a page per slug (e.g. `/value-chains/maize`) with just that one shortcode in it.
 
 The consent checkbox on every registration form links to `/privacy-policy`, `/terms-of-service`, and `/cookie-policy` — make sure pages exist at those slugs (or edit the links in `includes/class-form-engine.php` if your site uses different URLs).
 

@@ -102,7 +102,11 @@ Six WordPress actions connect every data-writing feature to the notification lay
 
 A daily digest of overdue CRM follow-ups runs on native WP-Cron (`agrixpert_followup_digest_cron`, scheduled for 07:00 on `init` if not already scheduled, cleared on deactivation), calling `AgriXpert_CRM::get_due_followup_tasks()` directly in-process. The original Supabase version needed a shared-secret RPC for this because an external Vercel Cron job had no Supabase session and had to bypass RLS to read the data; WordPress's own cron runs inside a normal WordPress request with full `$wpdb` access, so that complexity doesn't exist here.
 
-## 10. What is intentionally not in this plugin
+## 10. Value chains and solutions: real content, and a second "dead table" fixed
+
+`page_content` existed in the schema since Phase 1 as a JSON-blob override table (one row per `entity_type` + `slug`) for value-chain and solution detail pages, mirroring the live app's own override mechanism — but, like `cooperative_members`/`listing_reviews` before the Phase 9.5 Portal review, nothing in the plugin ever read or wrote it. `includes/data/class-page-library.php` fixes this: it loads the real migrated content bundled as `data/value-chains.json` and `data/solutions.json` (ported from the live app's `value-chain-content.ts`/`solutions-content.ts`, not placeholder copy — see `docs/CONTENT-MIGRATION.md`) and merges any `page_content` override over it, exactly matching the live app's `override ?? fallback` precedence. `includes/public/class-page-library-shortcodes.php` exposes this as four shortcodes (`[agrixpert_value_chains]`, `[agrixpert_value_chain slug="..."]`, `[agrixpert_solutions]`, `[agrixpert_solution slug="..."]`) rendered into ordinary WP Pages — no custom routing or page templates, consistent with §2's plain-WP-pages decision. `assets/css/page-library.css` provides light, theme-agnostic layout for the output.
+
+## 11. What is intentionally not in this plugin
 
 - **No REST API layer** beyond what the public shortcode forms need (they use `admin-post.php`, not `wp-json`). If a future requirement needs programmatic access (a mobile app, a third-party integration), that would be a new, deliberately-scoped addition — not something to bolt onto the existing admin-post handlers.
 - **No file upload handling.** The Insights feature takes a plain image URL field; the branding logo goes through WordPress's own built-in media-library uploader. There is no custom upload-and-validate code anywhere in the plugin.
