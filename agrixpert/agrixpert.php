@@ -28,12 +28,16 @@ require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-form-engine.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-registration-forms.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-verification.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-crm.php';
+require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-actors.php';
+require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-marketplace.php';
+require_once AGRIXPERT_PLUGIN_DIR . 'includes/public/class-marketplace-shortcode.php';
 
 add_action( 'plugins_loaded', function () {
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-verification-list-table.php';
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-admin-menu.php';
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-crm-page.php';
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-followups-page.php';
+	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-marketplace-admin.php';
 }, 20 );
 
 add_action( 'wp_enqueue_scripts', function () {

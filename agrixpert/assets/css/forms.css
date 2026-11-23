@@ -59,6 +59,48 @@
 	border-radius: 0.75rem;
 	padding: 1.25rem;
 }
+.agx-mkt-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 1rem;
+	margin-top: 1rem;
+}
+.agx-mkt-card {
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	border-radius: 0.75rem;
+	padding: 1rem;
+}
+.agx-mkt-location {
+	opacity: 0.7;
+	font-size: 0.9em;
+}
+.agx-mkt-action {
+	margin-top: 0.75rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+	align-items: center;
+}
+.agx-post-listing {
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	border-radius: 0.75rem;
+	padding: 1rem;
+	margin-bottom: 1.5rem;
+}
+.agx-post-listing summary {
+	cursor: pointer;
+	font-weight: 600;
+}
+.agx-service-fields {
+	margin-top: 0.75rem;
+	border: 1px dashed rgba(0, 0, 0, 0.2);
+	border-radius: 0.5rem;
+	padding: 0.75rem;
+}
+.agx-form-success-inline {
+	color: #166534;
+	font-weight: 600;
+}
 .agx-submit {
 	align-self: flex-start;
 	padding: 0.65rem 1.5rem;
