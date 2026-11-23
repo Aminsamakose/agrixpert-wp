@@ -27,10 +27,13 @@ require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-registrations.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-form-engine.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-registration-forms.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-verification.php';
+require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-crm.php';
 
 add_action( 'plugins_loaded', function () {
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-verification-list-table.php';
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-admin-menu.php';
+	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-crm-page.php';
+	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-followups-page.php';
 }, 20 );
 
 add_action( 'wp_enqueue_scripts', function () {

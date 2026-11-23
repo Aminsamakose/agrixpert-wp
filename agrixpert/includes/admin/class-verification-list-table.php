@@ -19,6 +19,7 @@ class AgriXpert_Verification_List_Table extends WP_List_Table {
 
 	private $entity_type;
 	private $is_verifiable;
+	private $stage_map;
 
 	public function __construct( $entity_type ) {
 		$this->entity_type  = $entity_type;
@@ -37,6 +38,7 @@ class AgriXpert_Verification_List_Table extends WP_List_Table {
 			'name'        => __( 'Name', 'agrixpert' ),
 			'contact'     => __( 'Contact', 'agrixpert' ),
 			'status'      => $this->is_verifiable ? __( 'Verification', 'agrixpert' ) : __( 'Status', 'agrixpert' ),
+			'stage'       => __( 'Pipeline Stage', 'agrixpert' ),
 			'created_at'  => __( 'Submitted', 'agrixpert' ),
 		);
 		if ( $this->entity_type === 'enquiry' ) {
@@ -71,6 +73,15 @@ class AgriXpert_Verification_List_Table extends WP_List_Table {
 	public function column_name( $item ) {
 		$name = esc_html( AgriXpert_Verification::display_name( $this->entity_type, $item ) );
 
+		$crm_url = add_query_arg( array(
+			'page'        => 'agrixpert-crm',
+			'entity_type' => $this->entity_type,
+			'entity_id'   => $item->id,
+		), admin_url( 'admin.php' ) );
+		$actions = array(
+			'crm' => '<a href="' . esc_url( $crm_url ) . '">' . esc_html__( 'CRM', 'agrixpert' ) . '</a>',
+		);
+
 		if ( $this->is_verifiable ) {
 			$verify = $this->row_action_url( $item->id, 'verify' );
 			$reject = $this->row_action_url( $item->id, 'reject' );
@@ -79,11 +90,10 @@ class AgriXpert_Verification_List_Table extends WP_List_Table {
 				'verify' => '<a href="' . esc_url( $verify ) . '">' . esc_html__( 'Verify', 'agrixpert' ) . '</a>',
 				'reject' => '<a href="' . esc_url( $reject ) . '" onclick="return confirm(\'' . esc_js( __( 'Reject this registration?', 'agrixpert' ) ) . '\')">' . esc_html__( 'Reject', 'agrixpert' ) . '</a>',
 				'reset'  => '<a href="' . esc_url( $reset ) . '">' . esc_html__( 'Reset to Pending', 'agrixpert' ) . '</a>',
-			);
-			return sprintf( '<strong>%s</strong>%s', $name, $this->row_actions( $actions ) );
+			) + $actions;
 		}
 
-		return '<strong>' . $name . '</strong>';
+		return sprintf( '<strong>%s</strong>%s', $name, $this->row_actions( $actions ) );
 	}
 
 	private function row_action_url( $id, $decision ) {
@@ -122,6 +132,14 @@ class AgriXpert_Verification_List_Table extends WP_List_Table {
 
 	public function column_enquiry_type( $item ) {
 		return esc_html( $item->enquiry_type );
+	}
+
+	public function column_stage( $item ) {
+		if ( ! isset( $this->stage_map ) ) {
+			$this->stage_map = AgriXpert_CRM::get_stage_map( $this->entity_type );
+		}
+		$stage = $this->stage_map[ $item->id ] ?? 'new';
+		return '<span class="agx-badge agx-badge-' . esc_attr( $stage ) . '">' . esc_html( ucfirst( $stage ) ) . '</span>';
 	}
 
 	public function column_default( $item, $column_name ) {
