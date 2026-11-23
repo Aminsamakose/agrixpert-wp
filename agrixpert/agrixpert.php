@@ -23,6 +23,13 @@ define( 'AGRIXPERT_DB_VERSION', '1.0.0' ); // bump + extend agrixpert_run_migrat
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-schema.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-roles.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-activation.php';
+require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-registrations.php';
+require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-form-engine.php';
+require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-registration-forms.php';
+
+add_action( 'wp_enqueue_scripts', function () {
+	wp_enqueue_style( 'agrixpert-forms', AGRIXPERT_PLUGIN_URL . 'assets/css/forms.css', array(), AGRIXPERT_VERSION );
+} );
 
 /**
  * Activation: create/upgrade all tables, register roles and capabilities.
