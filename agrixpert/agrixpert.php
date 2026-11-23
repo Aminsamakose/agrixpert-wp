@@ -26,6 +26,12 @@ require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-activation.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-registrations.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-form-engine.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-registration-forms.php';
+require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-verification.php';
+
+add_action( 'plugins_loaded', function () {
+	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-verification-list-table.php';
+	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-admin-menu.php';
+}, 20 );
 
 add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'agrixpert-forms', AGRIXPERT_PLUGIN_URL . 'assets/css/forms.css', array(), AGRIXPERT_VERSION );
