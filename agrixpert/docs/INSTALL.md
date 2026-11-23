@@ -39,9 +39,11 @@ On activation, the plugin automatically:
 
 No manual database setup, SQL import, or configuration file editing is required for this step.
 
-## 3. Add the public-facing pages
+## 3. The public-facing pages
 
-The plugin provides shortcodes, not pre-built pages — this lets you place them wherever fits your site's existing structure and theme. Create WordPress pages (or add blocks to existing ones) with:
+Activation automatically creates every page the site needs — About, What We Do, Solutions, Value Chains (plus the 5 crop and 6 solution sub-pages), For Farmers, For Buyers, For Cooperatives, Partnerships, Contact, Marketplace, My Account (Portal), and the three legal pages — already filled with the real content migrated from the live site (see `docs/CONTENT-MIGRATION.md`), not placeholders. This only happens once per slug: if a page already exists there (including one you've since edited), activation leaves it alone.
+
+If you want to place any of this content somewhere else, or build additional pages, the same shortcodes the seeded pages use are available anywhere:
 
 | Shortcode | What it shows |
 |---|---|
@@ -58,8 +60,6 @@ The plugin provides shortcodes, not pre-built pages — this lets you place them
 | `[agrixpert_value_chain slug="maize"]` | Full detail page for one value chain |
 | `[agrixpert_solutions]` | Grid of all 6 solution pages |
 | `[agrixpert_solution slug="production-coordination"]` | Full detail page for one solution |
-
-The value-chain and solution shortcodes render real copy migrated from the live site (see `docs/CONTENT-MIGRATION.md`), not placeholder text — create a page per slug (e.g. `/value-chains/maize`) with just that one shortcode in it.
 
 The consent checkbox on every registration form links to `/privacy-policy`, `/terms-of-service`, and `/cookie-policy` — make sure pages exist at those slugs (or edit the links in `includes/class-form-engine.php` if your site uses different URLs).
 

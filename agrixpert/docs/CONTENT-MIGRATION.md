@@ -2,6 +2,8 @@
 
 This is the "real content" item the charter flagged as outstanding for Phase 10: the actual copy from the live `agri-xpert.vercel.app` Next.js app, migrated into this WordPress plugin, as opposed to placeholder text. No invented copy is used anywhere in this document or in the code changes it documents — every line below is either copied verbatim from the live app's source (`src/app/**/page.tsx`, `src/lib/site-data.ts`, `src/lib/value-chain-content.ts`, `src/lib/solutions-content.ts`) or explicitly marked as something that still needs a decision from Amin.
 
+**Update (2026-11-23):** every page described below as "paste into a WP Page" is now created automatically on activation by `includes/class-page-seeder.php` — About, What We Do, For Farmers, For Buyers, For Cooperatives, Partnerships, Contact, Marketplace, Portal, the three legal pages, the Value Chains and Solutions index pages, and all 11 child pages (5 crops + 6 solutions, correctly nested under their index page via `post_parent`, not a slash in the slug). It only creates a page if nothing already exists at that slug, so re-activating or updating the plugin never overwrites a page Amin has since edited by hand. The sections below describing this as a manual task are kept for the record of what was migrated and from where; the mechanism is now automatic.
+
 ## What got wired up as working code, not just copy-pasted text
 
 Checking what the schema actually has running code against it (the same method that found the Portal gap in Phase 9.5) turned up a second table with zero code anywhere outside `class-schema.php`: **`page_content`**, meant to hold a JSON override per value-chain/solution page. It existed since Phase 1 and was never read or written by anything. This is now fixed:
@@ -39,11 +41,11 @@ If Amin later wants to edit one page's content without touching code, the admin 
 | `for-cooperatives.hero.title` | Cooperative registration, group market access and member management |
 | `partnerships.hero.title` | Institutional, commercial and investment partnerships |
 | `contact.hero.title` | Enquiries and business contacts |
-| `contact.email` | agrixpert26@gmail.com (the live app's actual contact address — replaces the previous default of the installing WP admin's own email) |
+| `contact.email` | agrixpert@samakose.com (decided with Amin 2026-11-23, replacing both the live app's `agrixpert26@gmail.com` and the previous default of the installing WP admin's own email) |
 | `contact.phone` | +233 (0) 55-858-9254 (from the live app's footer) |
 | `contact.address` | Tamale, Northern Ghana |
 
-**Flag for Amin:** `contact.email` now seeds to `agrixpert26@gmail.com` specifically, not the WP installer's own email. Confirm that's still the right inbox for the live site before going live — if not, it's a one-line edit in the Site Content admin screen after activation, no code change needed.
+`contact.email` seeds to `agrixpert@samakose.com` — confirmed with Amin on 2026-11-23, not the live app's own `agrixpert26@gmail.com` and not the WP installer's email.
 
 ## Short reusable lists (for the pages built from them)
 
@@ -119,7 +121,7 @@ These are narrative prose, not list-driven, so the practical route is pasting th
 - **Cookie Policy** (`src/app/cookie-policy/page.tsx`) — 6 sections. Same Phase-1-draft note, plus a note that no cookie-consent mechanism exists yet.
 - **Terms of Service** (`src/app/terms-of-service/page.tsx`) — 13 sections, governed by the laws of Ghana. Same Phase-1-draft note.
 
-All three legal pages route "Contact Us" to `agrixpert26@gmail.com` — consistent with the `contact.email` default above.
+The live app's legal pages route "Contact Us" to `agrixpert26@gmail.com`; the seeded WP pages (see below) use `agrixpert@samakose.com` instead, consistent with the `contact.email` default above.
 
 ## What this does not cover
 

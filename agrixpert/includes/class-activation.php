@@ -53,9 +53,17 @@ class AgriXpert_Activation {
 			'for-cooperatives.hero.title'     => array( 'group' => 'For Cooperatives', 'label' => 'Hero Title', 'type' => 'text', 'sort_order' => 1, 'value' => 'Cooperative registration, group market access and member management' ),
 			'partnerships.hero.title'         => array( 'group' => 'Partnerships', 'label' => 'Hero Title', 'type' => 'text', 'sort_order' => 1, 'value' => 'Institutional, commercial and investment partnerships' ),
 			'contact.hero.title'              => array( 'group' => 'Contact', 'label' => 'Hero Title', 'type' => 'text', 'sort_order' => 1, 'value' => 'Enquiries and business contacts' ),
-			'contact.email'                   => array( 'group' => 'Contact', 'label' => 'Contact Email', 'type' => 'text', 'sort_order' => 2, 'value' => 'agrixpert26@gmail.com' ),
+			'contact.email'                   => array( 'group' => 'Contact', 'label' => 'Contact Email', 'type' => 'text', 'sort_order' => 2, 'value' => 'agrixpert@samakose.com' ),
 			'contact.phone'                   => array( 'group' => 'Contact', 'label' => 'Contact Phone', 'type' => 'text', 'sort_order' => 3, 'value' => '+233 (0) 55-858-9254' ),
 			'contact.address'                 => array( 'group' => 'Contact', 'label' => 'Contact Address', 'type' => 'text', 'sort_order' => 4, 'value' => 'Tamale, Northern Ghana' ),
 		) );
+
+		// Create the real, migrated WordPress Pages (see
+		// includes/class-page-seeder.php and docs/CONTENT-MIGRATION.md)
+		// so activation leaves a working site rather than an empty shell.
+		// Idempotent — only creates a page if nothing already exists at
+		// that slug, same as every other seeding step here.
+		require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-page-seeder.php';
+		AgriXpert_Page_Seeder::run();
 	}
 }
