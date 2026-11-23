@@ -39,6 +39,7 @@ require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-email-templates.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-notifications.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-content.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/public/class-content-shortcodes.php';
+require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-images.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-page-library.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/public/class-page-library-shortcodes.php';
 
@@ -49,6 +50,7 @@ add_action( 'plugins_loaded', function () {
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-crm-page.php';
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-followups-page.php';
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-marketplace-admin.php';
+	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-images-admin.php';
 }, 20 );
 
 add_action( 'wp_enqueue_scripts', function () {

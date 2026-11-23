@@ -63,6 +63,10 @@ If you want to place any of this content somewhere else, or build additional pag
 
 The consent checkbox on every registration form links to `/privacy-policy`, `/terms-of-service`, and `/cookie-policy` — make sure pages exist at those slugs (or edit the links in `includes/class-form-engine.php` if your site uses different URLs).
 
+## 3b. Replace the placeholder photos with your own
+
+AgriXpert &rsaquo; **Images** (admin menu) lists every photo used on the value-chain and solution pages (currently stock Unsplash placeholders). Click **Choose from Media Library** on any one, upload or pick your own photo, and save — that image updates immediately everywhere that slot is used, no code change or redeployment needed. **Reset to Default** on a card puts the placeholder back.
+
 ## 4. Configure email (recommended before going live)
 
 Go to **AgriXpert → Settings** in the WordPress admin menu:

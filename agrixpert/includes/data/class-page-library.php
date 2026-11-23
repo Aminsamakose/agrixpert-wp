@@ -45,7 +45,16 @@ class AgriXpert_Page_Library {
 		return self::$cache[ $filename ];
 	}
 
+	/**
+	 * Resolves through AgriXpert_Images, which returns an admin-set
+	 * replacement (via the Images admin screen) when one exists, falling
+	 * back to the bundled Unsplash placeholder otherwise — see
+	 * includes/data/class-images.php.
+	 */
 	public static function stock_image( $key ) {
+		if ( class_exists( 'AgriXpert_Images' ) ) {
+			return AgriXpert_Images::get( $key );
+		}
 		$images = self::load_json( 'stock-images.json' );
 		return $images[ $key ] ?? null;
 	}

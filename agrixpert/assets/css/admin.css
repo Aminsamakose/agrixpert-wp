@@ -60,3 +60,39 @@
 	align-items: center;
 	margin: 1rem 0;
 }
+
+/* Images admin screen (includes/admin/class-images-admin.php) */
+.agx-images-grid {
+	display: grid;
+	gap: 1.25rem;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	margin-top: 1.5rem;
+}
+.agx-image-card {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	padding: 12px;
+}
+.agx-image-preview {
+	width: 100%;
+	height: 140px;
+	object-fit: cover;
+	border-radius: 4px;
+	margin-bottom: 8px;
+	background: #f0f0f1;
+}
+.agx-image-label {
+	font-weight: 600;
+	margin: 0 0 8px;
+}
+.agx-image-form input[type="url"],
+.agx-image-form input[type="text"] {
+	margin-bottom: 6px;
+}
+.agx-image-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: 6px;
+}

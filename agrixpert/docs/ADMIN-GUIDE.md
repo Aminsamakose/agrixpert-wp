@@ -47,6 +47,10 @@ Edit the text values that populate the public-facing pages (home page headline, 
 
 A lightweight CMS for articles/insights shown via `[agrixpert_insights]` on the public site — title, body, category, and an image URL (there is no file-upload field here; paste a URL to an already-hosted image, for example one from the WordPress Media Library).
 
+### Images
+
+Replace any of the stock placeholder photos used on the value-chain and solution pages with your own. Click **Choose from Media Library** on a photo, upload or pick an image, and **Save** — it updates immediately everywhere that slot is used on the site. **Reset to Default** restores the original placeholder.
+
 ### Staff
 
 Admin-only. Add someone by email and choose **Staff** or **Admin**. If a WordPress user account with that email already exists, the matching AgriXpert role is granted immediately. **If it doesn't exist yet, create their WordPress user account first** — adding them here before their WordPress account exists records the intended role but does not grant it automatically once they do sign up (there is no equivalent of the registration-linking behavior that farmers/buyers/suppliers/cooperatives get on first login). This screen is also where a record of every staff/admin email is kept, independent of WordPress's own Users list.

@@ -126,5 +126,5 @@ The live app's legal pages route "Contact Us" to `agrixpert26@gmail.com`; the se
 ## What this does not cover
 
 - **Insights** (blog/news posts) are live, admin-authored content in the live app's Supabase `insights` table, not static source code — there is nothing fixed to "migrate" here, since this is exactly what the plugin's existing Insights CMS (Phase 7) is for. If Amin wants specific existing published insights carried over, that needs the live Supabase data itself, not the Next.js source, and is a separate, narrower task.
-- **Real photography** replacing the Unsplash placeholders — unchanged open item, not new scope from this pass.
+- **Real photography** replacing the Unsplash placeholders — an admin screen to do this now exists (AgriXpert &rsaquo; Images, see `docs/ARCHITECTURE.md`), but no actual AgriXpert photography has been uploaded through it yet. That's a content task for Amin, not a code gap.
 - **Marketplace listings, verification records, CRM data** — these are live operational data in the Supabase database, not static site content, and are out of scope for a content migration in the sense used here.

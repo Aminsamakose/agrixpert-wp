@@ -108,6 +108,8 @@ A daily digest of overdue CRM follow-ups runs on native WP-Cron (`agrixpert_foll
 
 `includes/class-page-seeder.php` creates these pages (and every other marketing/legal page) automatically on activation, with the real migrated copy already in place — `get_page_by_path()` guards every page so a re-activation or plugin update never overwrites a page Amin has since edited. Child pages (the 5 crops, the 6 solutions) are nested under their index page via `post_parent`, not a slash in the page slug — WordPress's `post_name` does not support slashes, and building the slug that way would have produced a page whose front-end URL never resolved (caught by a standalone PHP test harness before this shipped, not by chance).
 
+**Replacing the placeholder photos:** `includes/data/class-images.php` stores a small set of named image-slot overrides (one `wp_options` row — the ~18 slots in `data/stock-images.json` are fixed and known in advance, unlike `site_content`/`page_content`, so a full table would be overkill). `AgriXpert_Page_Library::stock_image()` resolves through it, so an override applies everywhere that slot is used with no other code change. `includes/admin/class-images-admin.php` is the admin screen (AgriXpert &rsaquo; Images) — a WP media-library picker (`assets/js/images-admin.js`, via `wp_enqueue_media()`) per slot, with a one-click reset back to the bundled default.
+
 ## 11. What is intentionally not in this plugin
 
 - **No REST API layer** beyond what the public shortcode forms need (they use `admin-post.php`, not `wp-json`). If a future requirement needs programmatic access (a mobile app, a third-party integration), that would be a new, deliberately-scoped addition — not something to bolt onto the existing admin-post handlers.
