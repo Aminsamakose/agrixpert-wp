@@ -51,8 +51,9 @@ class AgriXpert_Content_Admin {
 		}
 
 		if ( isset( $_GET['agx_delete_insight'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			check_admin_referer( 'agrixpert_delete_insight_' . $_GET['agx_delete_insight'] );
-			AgriXpert_Content::delete_insight( sanitize_text_field( wp_unslash( $_GET['agx_delete_insight'] ) ) );
+			$insight_id = sanitize_text_field( wp_unslash( $_GET['agx_delete_insight'] ) );
+			check_admin_referer( 'agrixpert_delete_insight_' . $insight_id );
+			AgriXpert_Content::delete_insight( $insight_id );
 			wp_safe_redirect( admin_url( 'admin.php?page=agrixpert-insights&agx_notice=updated' ) );
 			exit;
 		}

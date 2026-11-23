@@ -120,8 +120,20 @@ class AgriXpert_Admin_Menu {
 		}
 		echo '</h2>';
 
-		echo '<form method="get">';
+		/*
+		 * POST, not GET: the bulk-action dropdown and the CSV export
+		 * button both submit data that maybe_handle_action() reads from
+		 * $_POST. A GET form here would mean "Apply" and "Export CSV"
+		 * silently do nothing — sortable-column links and row actions
+		 * (verify/reject/CRM) are plain <a href> GET navigation and are
+		 * unaffected by the wrapping form's method either way, and
+		 * get_entities() already reads search/filter/sort from
+		 * $_REQUEST, so it does not care whether this form is GET or POST.
+		 */
+		echo '<form method="post">';
 		echo '<input type="hidden" name="page" value="' . esc_attr( 'agrixpert-' . $entity_type ) . '" />';
+		wp_nonce_field( 'bulk-' . $entity_type . 's' );
+		wp_nonce_field( 'agrixpert_export_csv', 'agx_export_nonce' );
 		$table->search_box( __( 'Search', 'agrixpert' ), 'agx-search' );
 		$table->display();
 		echo '</form>';
@@ -218,6 +230,7 @@ class AgriXpert_Admin_Menu {
 
 		// --- CSV export ---
 		if ( isset( $_POST['agx_export'] ) && $_POST['agx_export'] === 'csv' ) {
+			check_admin_referer( 'agrixpert_export_csv', 'agx_export_nonce' );
 			self::export_csv( $entity_type );
 		}
 	}
