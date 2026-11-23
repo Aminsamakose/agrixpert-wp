@@ -54,6 +54,52 @@ class AgriXpert_Actors {
 		return null;
 	}
 
+	/**
+	 * All registration records linked to this WP user, across all four
+	 * types — a person can hold more than one role (e.g. a farmer who is
+	 * also a cooperative lead contact), matching the live Portal's
+	 * behaviour of loading every table rather than stopping at the first
+	 * match. Used by the self-service Portal; marketplace "who am I
+	 * acting as" still uses the single current_actor() above, matching
+	 * its existing first-match behaviour.
+	 *
+	 * @return array<array{type:string,id:string,row:object}>
+	 */
+	public static function current_actors() {
+		return self::actors_for_user( get_current_user_id() );
+	}
+
+	public static function actors_for_user( $wp_user_id ) {
+		if ( ! $wp_user_id ) {
+			return array();
+		}
+		global $wpdb;
+		$actors = array();
+		foreach ( self::TYPES as $type ) {
+			$table = AgriXpert_Verification::table_for( $type );
+			$row   = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE user_id = %d LIMIT 1", $wp_user_id ) );
+			if ( $row ) {
+				$actors[] = array( 'type' => $type, 'id' => $row->id, 'row' => $row );
+			}
+		}
+		return $actors;
+	}
+
+	/**
+	 * True if the given actor (type + id) is one of this WP user's own
+	 * linked records. Every Portal write handler must check this before
+	 * acting on a client-supplied type/id pair — the id alone is never
+	 * trusted as proof of ownership.
+	 */
+	public static function user_owns_actor( $wp_user_id, $actor_type, $actor_id ) {
+		foreach ( self::actors_for_user( $wp_user_id ) as $actor ) {
+			if ( $actor['type'] === $actor_type && (string) $actor['id'] === (string) $actor_id ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static function owner_contact( $actor_type, $actor_id ) {
 		$row = AgriXpert_Verification::get_entity( $actor_type, $actor_id );
 		if ( ! $row ) {

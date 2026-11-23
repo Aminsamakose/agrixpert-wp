@@ -30,7 +30,7 @@ This plugin does not follow WordPress.org's plugin directory conventions (it isn
 See `docs/ARCHITECTURE.md` for the full directory layout and design rationale. The short version for a maintainer:
 
 - New database table or column → `includes/class-schema.php`, then bump `AGRIXPERT_DB_VERSION`.
-- New capability check needed somewhere → constants are in `includes/class-roles.php`; call `current_user_can()` with one of them at the top of the new code path. There is no other enforcement layer (see `docs/ARCHITECTURE.md` §6) — a missed check here is a real security hole, not a style issue.
+- New capability check needed somewhere → constants are in `includes/class-roles.php`; call `current_user_can()` with one of them at the top of the new code path. There is no other enforcement layer (see `docs/ARCHITECTURE.md` §7) — a missed check here is a real security hole, not a style issue.
 - New public form → add a config block to `includes/class-registration-forms.php` and call `AgriXpert_Form_Engine::register_form()`; you get CSRF protection, sanitization, and the spam/abuse defenses (honeypot, timestamp floor, rate limit) for free without writing any of that yourself.
 - New admin screen → follow the pattern in `includes/admin/`: register with `add_submenu_page()` under the `agrixpert` top-level slug, gate the whole render function on `current_user_can()`, and use `check_admin_referer()`/`wp_nonce_field()` on anything that writes data.
 - New notification trigger → fire a new `do_action()` at the point the event happens, then hook it in `includes/class-notifications.php` — keeps the triggering code decoupled from email concerns, matching the existing pattern.

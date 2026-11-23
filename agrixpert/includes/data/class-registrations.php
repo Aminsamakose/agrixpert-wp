@@ -98,6 +98,83 @@ class AgriXpert_Registrations {
 		return $ok === false ? new WP_Error( 'agx_insert_failed', $wpdb->last_error ) : $id;
 	}
 
+	/**
+	 * Self-service editable fields per type, for the Portal (see
+	 * includes/public/class-portal-shortcode.php). Deliberately a smaller
+	 * set than the registration form itself: identity-defining fields
+	 * (name/company name) and anything already used as a lookup key
+	 * (email, since AgriXpert_Actors links by email) are left out, so an
+	 * actor can't silently detach themselves from their own linked
+	 * record or collide with another one by editing it here.
+	 */
+	public static function editable_fields( $type ) {
+		switch ( $type ) {
+			case 'farmer':
+				return array(
+					array( 'name' => 'phone', 'label' => __( 'Phone Number', 'agrixpert' ), 'type' => 'tel', 'required' => true ),
+					array( 'name' => 'location', 'label' => __( 'Location', 'agrixpert' ), 'type' => 'text' ),
+					array( 'name' => 'farm_size_hectares', 'label' => __( 'Farm Size (hectares)', 'agrixpert' ), 'type' => 'number', 'step' => '0.01', 'min' => '0' ),
+					array( 'name' => 'cooperative_or_group', 'label' => __( 'Cooperative / Group', 'agrixpert' ), 'type' => 'text' ),
+				);
+			case 'buyer':
+				return array(
+					array( 'name' => 'phone', 'label' => __( 'Phone Number', 'agrixpert' ), 'type' => 'tel' ),
+					array( 'name' => 'quantity_required', 'label' => __( 'Quantity Required', 'agrixpert' ), 'type' => 'text' ),
+					array( 'name' => 'quality_requirements', 'label' => __( 'Quality Requirements', 'agrixpert' ), 'type' => 'textarea' ),
+				);
+			case 'supplier':
+				return array(
+					array( 'name' => 'phone', 'label' => __( 'Phone Number', 'agrixpert' ), 'type' => 'tel' ),
+				);
+			case 'cooperative':
+				return array(
+					array( 'name' => 'phone', 'label' => __( 'Phone Number', 'agrixpert' ), 'type' => 'tel' ),
+					array( 'name' => 'location_label', 'label' => __( 'Location', 'agrixpert' ), 'type' => 'text' ),
+					array( 'name' => 'member_count_estimate', 'label' => __( 'Estimated Member Count', 'agrixpert' ), 'type' => 'number', 'step' => '1', 'min' => '0' ),
+				);
+			default:
+				return array();
+		}
+	}
+
+	/**
+	 * Updates a registration record on behalf of its own linked WP user.
+	 * The $wp_user_id -> $type/$id ownership check happens here, not just
+	 * in the calling shortcode handler, so this function is safe to call
+	 * directly and can never be used to edit someone else's record even
+	 * if a caller forgets to check first.
+	 */
+	public static function update_own_record( $type, $id, $wp_user_id, array $posted ) {
+		if ( ! AgriXpert_Actors::user_owns_actor( $wp_user_id, $type, $id ) ) {
+			return new WP_Error( 'agx_forbidden', __( 'You do not have permission to edit this record.', 'agrixpert' ) );
+		}
+		global $wpdb;
+		$table  = AgriXpert_Verification::table_for( $type );
+		$values = array();
+		foreach ( self::editable_fields( $type ) as $field ) {
+			$raw = isset( $posted[ $field['name'] ] ) ? wp_unslash( $posted[ $field['name'] ] ) : '';
+			switch ( $field['type'] ) {
+				case 'number':
+					$trimmed = trim( (string) $raw );
+					$values[ $field['name'] ] = $trimmed === '' ? null : (float) $trimmed;
+					break;
+				case 'textarea':
+					$values[ $field['name'] ] = sanitize_textarea_field( trim( (string) $raw ) );
+					break;
+				default:
+					$values[ $field['name'] ] = sanitize_text_field( trim( (string) $raw ) );
+			}
+			if ( ! empty( $field['required'] ) && $values[ $field['name'] ] === '' ) {
+				return new WP_Error( 'agx_required', sprintf( __( '%s is required.', 'agrixpert' ), $field['label'] ) );
+			}
+		}
+		if ( empty( $values ) ) {
+			return true;
+		}
+		$ok = $wpdb->update( $table, $values, array( 'id' => $id ) );
+		return $ok === false ? new WP_Error( 'agx_update_failed', $wpdb->last_error ) : true;
+	}
+
 	public static function insert_enquiry( $v ) {
 		global $wpdb;
 		$id = self::uuid();

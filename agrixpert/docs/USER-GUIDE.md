@@ -25,6 +25,17 @@ The marketplace page lists produce, equipment, and storage space. What you can d
 - **Posting a listing**, **expressing interest in one**, or **booking equipment or storage** requires being logged in as a registered farmer, buyer, supplier, or cooperative on the site. If you try one of these while logged out, you'll be prompted to log in first.
 - Equipment and storage availability shown on a listing reflects actual current bookings, not a fixed calendar — so what you see is always up to date.
 
+## My Account (the Portal)
+
+If the site has an account/"My Account" page, logging in there (using the same email you registered with — your registration is linked to your account automatically the first time you log in) lets you:
+
+- See whether your registration is still pending, has been verified, or was not approved.
+- Update some of your own details (phone number, location, and similar fields) without re-registering or contacting the site's team.
+- If you registered a cooperative: add or remove members from your cooperative's roster.
+- Leave a rating and comment on an equipment or storage booking once its booking period has ended.
+
+If you don't see your registration there after logging in, make sure you're using the same email address you registered with.
+
 ## Insights
 
 If the site has an Insights/articles page, it's a straightforward read-only list of articles published by the site's team — no account needed to view it.

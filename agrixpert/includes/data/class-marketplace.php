@@ -213,6 +213,57 @@ class AgriXpert_Marketplace {
 
 	// ---- Reviews ----------------------------------------------------------
 
+	/**
+	 * Equipment/storage bookings this WP user requested, joined back to
+	 * their listing for display and to know who the review's subject
+	 * would be (the listing's owning actor). A booking is treated as
+	 * "reviewable" once its end_date has passed — this plugin has no
+	 * separate booking-status workflow beyond the initial 'requested'
+	 * state (see class-schema.php), so elapsed time is the simplest
+	 * honest signal that the service period is over; this is a plugin
+	 * design decision, not a port of specific live-app logic, and is
+	 * documented as such in docs/ARCHITECTURE.md.
+	 *
+	 * @return array<object{booking_table,booking_id,start_date,end_date,commodity,subject_id,subject_type,reviewable,already_reviewed}>
+	 */
+	public static function get_bookings_for_user( $wp_user_id ) {
+		global $wpdb;
+		$rows = array();
+		foreach ( array( 'equipment_bookings' => 'equipment', 'storage_bookings' => 'storage_facilities' ) as $booking_table => $spec_table ) {
+			$bt   = AgriXpert_Schema::table( $booking_table );
+			$st   = AgriXpert_Schema::table( $spec_table );
+			$lt   = AgriXpert_Schema::table( 'listings' );
+			$spec_fk = $booking_table === 'equipment_bookings' ? 'equipment_id' : 'facility_id';
+			$sql = "SELECT b.id AS booking_id, b.start_date, b.end_date, l.commodity, l.listing_type, l.actor_id AS subject_id, l.actor_type AS subject_type
+				FROM {$bt} b
+				INNER JOIN {$st} s ON s.id = b.{$spec_fk}
+				INNER JOIN {$lt} l ON l.id = s.listing_id
+				WHERE b.requester_id = %d
+				ORDER BY b.start_date DESC";
+			$results = $wpdb->get_results( $wpdb->prepare( $sql, $wp_user_id ) );
+			foreach ( $results as $row ) {
+				$row->booking_table     = $booking_table;
+				$row->reviewable        = strtotime( $row->end_date ) < strtotime( 'today' );
+				$row->already_reviewed  = self::has_review( $booking_table, $row->booking_id, $wp_user_id );
+				$rows[] = $row;
+			}
+		}
+		usort( $rows, function ( $a, $b ) {
+			return strtotime( $b->start_date ) <=> strtotime( $a->start_date );
+		} );
+		return $rows;
+	}
+
+	public static function has_review( $booking_table, $booking_id, $reviewer_id ) {
+		global $wpdb;
+		$table = AgriXpert_Schema::table( 'listing_reviews' );
+		$count = $wpdb->get_var( $wpdb->prepare(
+			"SELECT COUNT(*) FROM {$table} WHERE booking_table = %s AND booking_id = %s AND reviewer_id = %d",
+			$booking_table, $booking_id, $reviewer_id
+		) );
+		return (int) $count > 0;
+	}
+
 	public static function create_review( $subject_id, $booking_table, $booking_id, $rating, $comment ) {
 		global $wpdb;
 		$id = wp_generate_uuid4();

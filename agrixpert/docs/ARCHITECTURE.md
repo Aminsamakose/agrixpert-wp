@@ -23,7 +23,7 @@ The original Next.js/Supabase application continues to run unaffected at its exi
 ```
 agrixpert/
 ├── agrixpert.php                 Plugin bootstrap
-├── uninstall.php                 Destructive cleanup (see §7)
+├── uninstall.php                 Destructive cleanup (see §8)
 ├── assets/css/forms.css          Theme-agnostic styling for public forms
 ├── docs/                         This documentation set
 └── includes/
@@ -41,12 +41,13 @@ agrixpert/
     │                             query against user input goes through $wpdb->prepare()
     ├── admin/                    WP admin screens (menu, list tables, CRM, marketplace,
     │                             follow-ups, site content/insights) — loaded only in wp-admin
-    └── public/                   Shortcode renderers for the marketplace and site content
+    └── public/                   Shortcode renderers for the marketplace, site content, and
+                                  the self-service Portal (see §6)
 ```
 
 ## 4. Data model
 
-All 22 tables are defined in `AgriXpert_Schema` and created/upgraded via `dbDelta()`, WordPress's standard idempotent schema-management function — calling it again with an unchanged definition is a no-op, and calling it with a changed definition alters only what changed. This is what makes plugin updates safe: a new version can add a column or table without touching existing data.
+All 24 tables are defined in `AgriXpert_Schema` and created/upgraded via `dbDelta()`, WordPress's standard idempotent schema-management function — calling it again with an unchanged definition is a no-op, and calling it with a changed definition alters only what changed. This is what makes plugin updates safe: a new version can add a column or table without touching existing data.
 
 **Primary keys are UUIDs (`CHAR(36)`), not WordPress's usual `AUTO_INCREMENT BIGINT`.** This was a deliberate compatibility choice: the original Supabase tables use UUID primary keys, and keeping the same key type means a future data migration from the live Supabase database can import rows (and the foreign keys between them) without renumbering anything. Supabase's `auth.users(id)` references map to `BIGINT UNSIGNED` against `wp_users.ID`, since WordPress users are never UUIDs.
 
@@ -58,7 +59,19 @@ Submission follows WordPress's native Post/Redirect/Get pattern through `admin-p
 
 **Abuse defense** is built into the engine itself (so every form gets it for free): a CSS-hidden honeypot field, a minimum-fill-time check (a submission faster than 2 seconds after the form rendered is rejected as scripted), and a per-IP rate limit of 5 submissions per form per 10 minutes, implemented with WordPress's transients API rather than a custom table.
 
-## 6. Authorization: capabilities replace Row Level Security
+## 6. Self-service Portal
+
+`includes/public/class-portal-shortcode.php` provides `[agrixpert_portal]`: a logged-in area where a registered farmer, buyer, supplier, or cooperative can see their own verification status, edit a limited set of their own profile fields, and (cooperatives only) manage an active/removed member roster (`cooperative_members` table) and view/leave reviews on completed equipment or storage bookings (`listing_reviews` table).
+
+This was missed on the first pass of the rewrite — the original Next.js app has an entire `/portal` page covering exactly this, and the rewrite initially only carried over the one-way public registration forms and the staff-side admin dashboard. It was caught during a post-Phase-9 gap review (checked against the live app's actual source, not assumed) and added as its own addition rather than squeezed into an existing file.
+
+Design notes specific to this feature:
+- **Editable fields are a deliberately smaller set than the registration form itself** (`AgriXpert_Registrations::editable_fields()`): identity-defining fields (name, company name) and the email used as the actor-linking key are excluded, so a self-edit can never detach an actor from its own account or collide with another record.
+- **Every write re-derives ownership server-side** (`AgriXpert_Actors::user_owns_actor()`), never trusting a client-posted type/id or cooperative/member id pair as proof of ownership — the same principle used everywhere else authorization replaces RLS (see §7 below).
+- **Review eligibility is time-based, not status-based**: a booking is reviewable once its `end_date` has passed. This plugin has no booking-status workflow beyond the initial `requested` state (bookings never transition to `confirmed`/`completed` anywhere in this codebase, unlike `listing_interests`, which does), so elapsed time is the simplest honest signal that a booking's service period is over. This is a plugin design decision, not a port of specific live-app logic — flag it for review if the live app's actual review-eligibility rule turns out to differ.
+- `chain_events` and `accountability_events` remain schema-only with no code anywhere, in both this plugin and the live app (confirmed by checking the live app's source, not assumed) — they appear to be unused/aspirational tables in the original design, not a gap introduced by this rewrite.
+
+## 7. Authorization: capabilities replace Row Level Security
 
 **This is the single biggest architectural substitution in the whole rewrite, and the one most worth a careful read.**
 
@@ -77,19 +90,19 @@ Because there is no database backstop, **every new admin screen or data-writing 
 
 **Actor identity is always derived server-side, never trusted from client input.** `AgriXpert_Actors` resolves the logged-in WordPress user to their farmer/buyer/supplier/cooperative record via a `user_id` foreign key, claimed automatically on first login. Every marketplace write (expressing interest, booking equipment or storage) derives "who is acting" from this resolution, not from a hidden form field — the server-side analogue of what RLS enforced in Postgres via "you can only act as your own row."
 
-## 7. Lifecycle: activation, deactivation, uninstall
+## 8. Lifecycle: activation, deactivation, uninstall
 
 - **Activation** (`class-activation.php`): runs `dbDelta()` to create/upgrade all tables, registers the custom roles and capabilities, seeds the installing admin's email into the `admins` table so there is always at least one full admin, and seeds a handful of default site-content values (hero heading, contact email, etc.) only if they don't already exist.
 - **Deactivation**: intentionally does nothing destructive. Tables, options, and roles are all left in place, so deactivating and reactivating the plugin — or updating it — never loses data. `dbDelta()` re-running on every version check is additive/idempotent by design.
 - **Uninstall** (`uninstall.php`): WordPress only runs this file when the plugin is deleted from the Plugins screen with the "also delete its data" confirmation checked — never on a plain deactivation. It is the one deliberately destructive path: it drops all 22 tables, deletes the plugin's options, clears the scheduled cron hook, and removes the two custom roles.
 
-## 8. Notifications
+## 9. Notifications
 
 Six WordPress actions connect every data-writing feature to the notification layer without those features needing to know anything about email: `agrixpert_submission_saved`, `agrixpert_verification_decided`, `agrixpert_listing_created`, `agrixpert_listing_interest_created`, `agrixpert_equipment_booking_created`, `agrixpert_storage_booking_created`. `AgriXpert_Notifications` hooks all six and sends branded HTML emails via `AgriXpert_Mailer`, which wraps `wp_mail()` and resolves SMTP credentials from either `wp_options` (set via the admin Settings screen) or `wp-config.php` constants (`AGRIXPERT_SMTP_HOST`, etc.) if defined, with the constant taking priority — the hardened option for a production deployment where secrets shouldn't live in the database.
 
 A daily digest of overdue CRM follow-ups runs on native WP-Cron (`agrixpert_followup_digest_cron`, scheduled for 07:00 on `init` if not already scheduled, cleared on deactivation), calling `AgriXpert_CRM::get_due_followup_tasks()` directly in-process. The original Supabase version needed a shared-secret RPC for this because an external Vercel Cron job had no Supabase session and had to bypass RLS to read the data; WordPress's own cron runs inside a normal WordPress request with full `$wpdb` access, so that complexity doesn't exist here.
 
-## 9. What is intentionally not in this plugin
+## 10. What is intentionally not in this plugin
 
 - **No REST API layer** beyond what the public shortcode forms need (they use `admin-post.php`, not `wp-json`). If a future requirement needs programmatic access (a mobile app, a third-party integration), that would be a new, deliberately-scoped addition — not something to bolt onto the existing admin-post handlers.
 - **No file upload handling.** The Insights feature takes a plain image URL field; the branding logo goes through WordPress's own built-in media-library uploader. There is no custom upload-and-validate code anywhere in the plugin.

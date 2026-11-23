@@ -32,11 +32,17 @@ Every other handler checked (CRM, marketplace admin, follow-ups, settings, the p
 
 ### File upload surface
 **Method:** grepped for `$_FILES`, `move_uploaded_file`, and `wp_handle_upload` across the codebase.
-**Result:** no custom file-upload handling exists anywhere in the plugin. The Insights feature takes a plain URL string; the Settings logo field uses WordPress's own built-in, already-hardened media-library picker. There is no custom upload-validation code to audit because none was written — this was a deliberate design choice (see `docs/ARCHITECTURE.md` §9), not an oversight.
+**Result:** no custom file-upload handling exists anywhere in the plugin. The Insights feature takes a plain URL string; the Settings logo field uses WordPress's own built-in, already-hardened media-library picker. There is no custom upload-validation code to audit because none was written — this was a deliberate design choice (see `docs/ARCHITECTURE.md` §10), not an oversight.
 
 ### PHP lint
 **Method:** `php -l` run against every `.php` file after every change in this phase.
 **Result:** clean throughout — no syntax errors at any point.
+
+### Feature-completeness check against the live app (found after first claiming this was complete)
+**Method:** after packaging, a direct request to re-check for gaps prompted grepping the schema for tables with no code anywhere referencing them outside `class-schema.php`, then checking the live Next.js app's actual source (not assumption) for whether each one is genuinely used there.
+**Result:** found a real, substantial gap, not just a documentation error. The live app has an entire logged-in self-service "Portal" page (`/portal`, ~1,100 lines) that had been missed when this rewrite was first scoped: a registered farmer/buyer/supplier/cooperative can check their own verification status, edit their own details, manage a cooperative's member roster, and leave a booking review. None of this existed in the WordPress plugin before this was caught. **Fixed**: added `[agrixpert_portal]` (see `includes/public/class-portal-shortcode.php`, `docs/ARCHITECTURE.md` §6), which wires up the two tables this uncovered as genuinely unused (`cooperative_members`, `listing_reviews` — confirmed active in the live app's source) while leaving two others (`chain_events`, `accountability_events`) alone, since those were confirmed unused in the live app too, not something this rewrite dropped.
+
+This is logged here, including the fact that it was missed on first pass, because an honest testing report should show not just what was checked but what checking turned up that an earlier claim ("every table has a working path") got wrong. The Portal is new code and has had the same static checks as everything else (ownership checks on every write, nonces, lint) but — like everything else in this plugin — no live test yet.
 
 ## Live functional testing — NOT done
 
@@ -46,8 +52,9 @@ The following items from the original brief's testing checklist require a runnin
 - Database table creation on activation, verified against an actual MySQL/MariaDB instance
 - Authentication and role/capability enforcement, exercised as different logged-in users in a real browser
 - Each of the five public registration forms, submitted end-to-end including the honeypot/rate-limit defenses actually firing correctly against real HTTP requests
-- Each admin dashboard screen (verification queues, CRM, follow-ups, marketplace, site content, insights, settings), clicked through as a real user
+- Each admin dashboard screen (verification queues, CRM, follow-ups, marketplace, site content, insights, settings, staff), clicked through as a real user
 - Marketplace workflows (post a listing, express interest, book equipment/storage, live availability calculation) exercised end-to-end
+- Portal workflows (profile editing, cooperative member add/remove, booking review submission), exercised end-to-end as a logged-in actor, including confirming the ownership checks actually reject attempts to edit/act on another actor's records
 - File-based asset handling (logo upload via the media library) exercised end-to-end
 - Email notification delivery, with a real SMTP provider
 - Mobile responsiveness, in an actual browser at phone/tablet widths

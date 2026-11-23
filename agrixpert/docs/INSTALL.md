@@ -51,6 +51,7 @@ The plugin provides shortcodes, not pre-built pages — this lets you place them
 | `[agrixpert_cooperative_form]` | Cooperative registration form |
 | `[agrixpert_contact_form]` | General contact/enquiry form |
 | `[agrixpert_marketplace]` | Marketplace listings + post-a-listing form |
+| `[agrixpert_portal]` | Self-service "My Account" area for a logged-in registered farmer/buyer/supplier/cooperative: verification status, editable profile details, cooperative member roster, and booking reviews |
 | `[agrixpert_content key="hero_heading"]` | A single managed site-content value (see Site Content admin screen for available keys) |
 | `[agrixpert_insights]` | The Insights/articles grid |
 
