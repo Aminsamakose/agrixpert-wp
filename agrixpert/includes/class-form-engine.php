@@ -67,6 +67,15 @@ class AgriXpert_Form_Engine {
 		<form class="agx-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 			<input type="hidden" name="action" value="agrixpert_submit_<?php echo esc_attr( $id ); ?>" />
 			<input type="hidden" name="agx_redirect" value="<?php echo esc_url( get_permalink() ?: home_url( '/' ) ); ?>" />
+			<input type="hidden" name="agx_ts" value="<?php echo esc_attr( time() ); ?>" />
+			<?php // Honeypot: real visitors never see or fill this; CSS-hidden (not type="hidden")
+			// so bots that only skip hidden inputs still fall for it. Paired with the agx_ts
+			// timestamp (a submit faster than a human could type is treated as spam) and a
+			// per-IP transient rate limit in handle_submit() below. ?>
+			<p class="agx-hp-field" aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;" tabindex="-1">
+				<label for="agx-hp-<?php echo esc_attr( $id ); ?>">Leave this field empty</label>
+				<input type="text" id="agx-hp-<?php echo esc_attr( $id ); ?>" name="agx_hp" value="" tabindex="-1" autocomplete="off" />
+			</p>
 			<?php wp_nonce_field( 'agrixpert_submit_' . $id, 'agrixpert_nonce' ); ?>
 
 			<?php if ( $error_message ) : ?>
@@ -154,6 +163,35 @@ class AgriXpert_Form_Engine {
 			self::redirect_with_error( $id, $redirect, __( 'Your session expired — please try again.', 'agrixpert' ) );
 		}
 
+		// Honeypot: a filled-in hidden field means a bot, not a visitor. Fail silently
+		// with a generic success-looking redirect rather than telling the bot why it
+		// was rejected, but never actually insert the row.
+		if ( ! empty( $_POST['agx_hp'] ) ) {
+			wp_safe_redirect( add_query_arg( array( 'agx_form' => $id, 'agx_result' => 'success' ), $redirect ) );
+			exit;
+		}
+
+		// Timestamp floor: a real person needs at least a couple of seconds to see the
+		// form and fill it in. A submission faster than that is almost certainly scripted.
+		$submitted_at = isset( $_POST['agx_ts'] ) ? (int) $_POST['agx_ts'] : 0;
+		if ( $submitted_at <= 0 || ( time() - $submitted_at ) < 2 ) {
+			self::redirect_with_error( $id, $redirect, __( 'Please try submitting again.', 'agrixpert' ) );
+		}
+
+		// Per-IP rate limit: at most 5 submissions to this form per 10 minutes. Uses the
+		// WP transients API (object cache if present, else wp_options) rather than a
+		// dedicated table, since this is a lightweight, self-expiring counter, not data
+		// we need to query or report on.
+		$ip = self::get_client_ip();
+		if ( $ip ) {
+			$key   = 'agx_rl_' . $id . '_' . md5( $ip );
+			$count = (int) get_transient( $key );
+			if ( $count >= 5 ) {
+				self::redirect_with_error( $id, $redirect, __( 'You have submitted this form too many times recently. Please try again later.', 'agrixpert' ) );
+			}
+			set_transient( $key, $count + 1, 10 * MINUTE_IN_SECONDS );
+		}
+
 		$values = array();
 		foreach ( $config['fields'] as $field ) {
 			$raw = isset( $_POST[ $field['name'] ] ) ? wp_unslash( $_POST[ $field['name'] ] ) : ( $field['type'] === 'checkbox_group' ? array() : '' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized per-type below
@@ -210,6 +248,26 @@ class AgriXpert_Form_Engine {
 		);
 		wp_safe_redirect( $url );
 		exit;
+	}
+
+	/**
+	 * Best-effort client IP for rate limiting only — never stored against a
+	 * registration record, and not treated as trustworthy identity (the
+	 * X-Forwarded-For header can be spoofed by the client itself if no
+	 * trusted proxy is in front of the site, so this is a throttle against
+	 * casual abuse, not a security boundary).
+	 */
+	private static function get_client_ip() {
+		foreach ( array( 'HTTP_CF_CONNECTING_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR' ) as $key ) {
+			if ( ! empty( $_SERVER[ $key ] ) ) {
+				$value = sanitize_text_field( wp_unslash( $_SERVER[ $key ] ) );
+				$first = trim( explode( ',', $value )[0] );
+				if ( filter_var( $first, FILTER_VALIDATE_IP ) ) {
+					return $first;
+				}
+			}
+		}
+		return '';
 	}
 
 	private static function redirect_with_error( $id, $redirect, $message ) {
