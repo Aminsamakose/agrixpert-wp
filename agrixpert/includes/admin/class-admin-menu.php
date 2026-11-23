@@ -212,10 +212,22 @@ class AgriXpert_Admin_Menu {
 		}
 
 		// --- Bulk action from the list table's own form ---
-		if ( ! empty( $_POST['agx_ids'] ) && ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] !== '-1' ) {
+		// WP_List_Table renders two bulk-action dropdowns (top: "action",
+		// bottom: "action2") — a user can submit from either, and the one
+		// not used is left at its default "-1". Checking "action" alone
+		// would silently do nothing when the bottom dropdown was used;
+		// this mirrors WP_List_Table::current_action()'s own fallback
+		// without needing a table instance here.
+		$bulk_action = '';
+		if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] !== '-1' ) {
+			$bulk_action = sanitize_key( wp_unslash( $_REQUEST['action'] ) );
+		} elseif ( ! empty( $_REQUEST['action2'] ) && $_REQUEST['action2'] !== '-1' ) {
+			$bulk_action = sanitize_key( wp_unslash( $_REQUEST['action2'] ) );
+		}
+		if ( ! empty( $_POST['agx_ids'] ) && $bulk_action !== '' ) {
 			check_admin_referer( 'bulk-' . $entity_type . 's' );
 			$ids    = array_map( 'sanitize_text_field', wp_unslash( (array) $_POST['agx_ids'] ) );
-			$action = sanitize_key( $_REQUEST['action'] );
+			$action = $bulk_action;
 
 			if ( $entity_type === 'enquiry' ) {
 				foreach ( $ids as $id ) {

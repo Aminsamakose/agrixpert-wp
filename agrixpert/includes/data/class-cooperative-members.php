@@ -68,6 +68,18 @@ class AgriXpert_Cooperative_Members {
 			array( 'member_status' => 'removed' ),
 			array( 'id' => $member_id, 'cooperative_id' => $cooperative_id )
 		);
-		return $ok === false ? new WP_Error( 'agx_update_failed', $wpdb->last_error ) : true;
+		// $wpdb->update() returns an int (rows affected) on success, or false
+		// on a genuine DB error — 0 is a valid, non-error return, but here it
+		// specifically means $member_id didn't match a row under this
+		// cooperative_id (wrong id, already removed, or a forged/mismatched
+		// pair). Reporting that as success would hide a real problem rather
+		// than a harmless no-op, so it's treated as an error here.
+		if ( $ok === false ) {
+			return new WP_Error( 'agx_update_failed', $wpdb->last_error );
+		}
+		if ( (int) $ok === 0 ) {
+			return new WP_Error( 'agx_not_found', __( 'That member could not be found for this cooperative.', 'agrixpert' ) );
+		}
+		return true;
 	}
 }

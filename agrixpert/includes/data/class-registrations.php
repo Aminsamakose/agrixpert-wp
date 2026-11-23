@@ -164,7 +164,12 @@ class AgriXpert_Registrations {
 				default:
 					$values[ $field['name'] ] = sanitize_text_field( trim( (string) $raw ) );
 			}
-			if ( ! empty( $field['required'] ) && $values[ $field['name'] ] === '' ) {
+			// Loosely-typed check on purpose: a required text/textarea field
+			// fails empty on '', a required number field fails empty on
+			// null (see the 'number' case above) — no field here is both
+			// required and numeric today, but the check must hold if one
+			// is ever added, not just for the field types that exist now.
+			if ( ! empty( $field['required'] ) && ( $values[ $field['name'] ] === '' || $values[ $field['name'] ] === null ) ) {
 				return new WP_Error( 'agx_required', sprintf( __( '%s is required.', 'agrixpert' ), $field['label'] ) );
 			}
 		}

@@ -150,7 +150,11 @@ class AgriXpert_Verification_List_Table extends WP_List_Table {
 		if ( $which !== 'top' ) {
 			return;
 		}
-		$current = sanitize_key( $_GET['agx_status'] ?? 'all' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display filter only
+		// $_REQUEST, not $_GET: the wrapping form (class-admin-menu.php) submits
+		// as POST so bulk actions and CSV export reach $_POST correctly, so the
+		// filter value arrives here as POST too — reading $_GET only would show
+		// "All" as selected even while a filter is actually applied via prepare_items().
+		$current = sanitize_key( $_REQUEST['agx_status'] ?? 'all' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display filter only
 		$options = $this->is_verifiable
 			? array( 'all' => __( 'All', 'agrixpert' ), 'pending' => __( 'Pending', 'agrixpert' ), 'verified' => __( 'Verified', 'agrixpert' ), 'rejected' => __( 'Rejected', 'agrixpert' ) )
 			: array( 'all' => __( 'All', 'agrixpert' ), 'new' => __( 'New', 'agrixpert' ), 'in_progress' => __( 'In Progress', 'agrixpert' ), 'resolved' => __( 'Resolved', 'agrixpert' ), 'archived' => __( 'Archived', 'agrixpert' ) );
