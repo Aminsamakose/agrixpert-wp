@@ -35,8 +35,11 @@ require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-settings.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-mailer.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-email-templates.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-notifications.php';
+require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-content.php';
+require_once AGRIXPERT_PLUGIN_DIR . 'includes/public/class-content-shortcodes.php';
 
 add_action( 'plugins_loaded', function () {
+	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-content-admin.php';
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-verification-list-table.php';
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-admin-menu.php';
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-crm-page.php';

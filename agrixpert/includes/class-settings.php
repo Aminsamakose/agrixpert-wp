@@ -66,6 +66,7 @@ class AgriXpert_Settings {
 			// must not wipe a previously saved password.
 			$existing = get_option( self::OPTION, array() );
 			$opts['smtp_pass'] = ! empty( $_POST['smtp_pass'] ) ? sanitize_text_field( wp_unslash( $_POST['smtp_pass'] ) ) : ( $existing['smtp_pass'] ?? '' );
+			$opts['logo_attachment_id'] = isset( $_POST['logo_attachment_id'] ) ? absint( $_POST['logo_attachment_id'] ) : ( $existing['logo_attachment_id'] ?? 0 );
 
 			update_option( self::OPTION, $opts );
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved.', 'agrixpert' ) . '</p></div>';
@@ -90,6 +91,31 @@ class AgriXpert_Settings {
 		self::field( 'from_email', __( 'From Email', 'agrixpert' ), 'email' );
 		self::field( 'notify_email', __( 'Internal Notification Email', 'agrixpert' ), 'email', __( 'Where new-lead alerts are sent', 'agrixpert' ) );
 		echo '</tbody></table>';
+
+		echo '<h2>' . esc_html__( 'Branding', 'agrixpert' ) . '</h2>';
+		wp_enqueue_media();
+		$logo_id  = (int) self::get( 'logo_attachment_id', 0 );
+		$logo_url = $logo_id ? wp_get_attachment_image_url( $logo_id, 'medium' ) : '';
+		echo '<p><img id="agx-logo-preview" src="' . esc_url( $logo_url ) . '" style="max-height:60px;' . ( $logo_url ? '' : 'display:none;' ) . '" /></p>';
+		echo '<input type="hidden" id="agx-logo-id" name="logo_attachment_id" value="' . esc_attr( $logo_id ) . '" />';
+		echo '<button type="button" class="button" id="agx-logo-pick">' . esc_html__( 'Choose Logo', 'agrixpert' ) . '</button>';
+		echo '<script>
+			(function(){
+				var btn = document.getElementById("agx-logo-pick");
+				if (!btn) return;
+				btn.addEventListener("click", function(e){
+					e.preventDefault();
+					var frame = wp.media({ title: "' . esc_js( __( 'Select Logo', 'agrixpert' ) ) . '", multiple: false });
+					frame.on("select", function(){
+						var att = frame.state().get("selection").first().toJSON();
+						document.getElementById("agx-logo-id").value = att.id;
+						var img = document.getElementById("agx-logo-preview");
+						img.src = att.url; img.style.display = "block";
+					});
+					frame.open();
+				});
+			})();
+		</script>';
 		submit_button( __( 'Save Settings', 'agrixpert' ) );
 		echo '</form></div>';
 	}
@@ -104,3 +130,14 @@ class AgriXpert_Settings {
 }
 
 AgriXpert_Settings::init();
+
+add_filter( 'agrixpert_email_logo_url', function ( $url ) {
+	$id = (int) AgriXpert_Settings::get( 'logo_attachment_id', 0 );
+	if ( $id ) {
+		$real = wp_get_attachment_image_url( $id, 'medium' );
+		if ( $real ) {
+			return $real;
+		}
+	}
+	return $url;
+} );

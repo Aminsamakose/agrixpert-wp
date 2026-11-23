@@ -30,5 +30,13 @@ class AgriXpert_Activation {
 		if ( ! get_option( 'agrixpert_activated_at' ) ) {
 			update_option( 'agrixpert_activated_at', current_time( 'mysql' ) );
 		}
+
+		require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-content.php';
+		AgriXpert_Content::seed_defaults( array(
+			'hero_heading'    => array( 'group' => 'Home', 'label' => 'Hero Heading', 'type' => 'text', 'sort_order' => 1, 'value' => 'Transforming Agribusiness Across Ghana' ),
+			'hero_subheading' => array( 'group' => 'Home', 'label' => 'Hero Subheading', 'type' => 'textarea', 'sort_order' => 2, 'value' => 'AgriXpert connects farmers, buyers, suppliers and cooperatives into one trusted value chain.' ),
+			'contact_email'   => array( 'group' => 'Contact', 'label' => 'Contact Email', 'type' => 'text', 'sort_order' => 1, 'value' => get_option( 'admin_email' ) ),
+			'contact_phone'   => array( 'group' => 'Contact', 'label' => 'Contact Phone', 'type' => 'text', 'sort_order' => 2, 'value' => '' ),
+		) );
 	}
 }
