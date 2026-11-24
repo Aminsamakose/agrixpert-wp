@@ -80,6 +80,7 @@ class AgriXpert_Page_Seeder {
 			'partnerships'     => array( 'title' => 'Partnerships', 'content' => self::partnerships() ),
 			'contact'          => array( 'title' => 'Contact', 'content' => self::contact() ),
 			'marketplace'      => array( 'title' => 'Marketplace', 'content' => '[agrixpert_marketplace]' ),
+			'insights'         => array( 'title' => 'Insights', 'content' => '<p class="agx-page-tagline">News, updates and commentary from AgriXpert.</p>[agrixpert_insights limit="20"]' ),
 			'portal'           => array( 'title' => 'My Account', 'content' => '[agrixpert_portal]' ),
 			'privacy-policy'   => array( 'title' => 'Privacy Policy', 'content' => self::privacy_policy() ),
 			'cookie-policy'    => array( 'title' => 'Cookie Policy', 'content' => self::cookie_policy() ),

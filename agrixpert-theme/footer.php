@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<li><a href="<?php echo esc_url( home_url( '/value-chains' ) ); ?>"><?php esc_html_e( 'Value Chains', 'agrixpert-theme' ); ?></a></li>
 						<li><a href="<?php echo esc_url( home_url( '/solutions' ) ); ?>"><?php esc_html_e( 'Solutions', 'agrixpert-theme' ); ?></a></li>
 						<li><a href="<?php echo esc_url( home_url( '/marketplace' ) ); ?>"><?php esc_html_e( 'Marketplace', 'agrixpert-theme' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/insights' ) ); ?>"><?php esc_html_e( 'Insights', 'agrixpert-theme' ); ?></a></li>
 						<li><a href="<?php echo esc_url( home_url( '/portal' ) ); ?>"><?php esc_html_e( 'Portal', 'agrixpert-theme' ); ?></a></li>
 					</ul>
 				</div>

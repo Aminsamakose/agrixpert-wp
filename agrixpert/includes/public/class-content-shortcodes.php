@@ -26,7 +26,8 @@ add_shortcode( 'agrixpert_insights', function ( $atts ) {
 	ob_start();
 	echo '<div class="agx-insights-grid">';
 	foreach ( $insights as $insight ) {
-		echo '<article class="agx-insight-card">';
+		$href = home_url( '/insights/' . $insight->slug );
+		echo '<a class="agx-insight-card" href="' . esc_url( $href ) . '">';
 		if ( $insight->image_url ) {
 			echo '<img src="' . esc_url( $insight->image_url ) . '" alt="" />';
 		}
@@ -34,7 +35,7 @@ add_shortcode( 'agrixpert_insights', function ( $atts ) {
 		echo '<h3>' . esc_html( $insight->title ) . '</h3>';
 		echo '<p>' . esc_html( $insight->excerpt ) . '</p>';
 		echo '<p class="agx-insight-meta">' . esc_html( $insight->author ) . ' &middot; ' . esc_html( mysql2date( get_option( 'date_format' ), $insight->published_at ) ) . '</p>';
-		echo '</article>';
+		echo '</a>';
 	}
 	if ( empty( $insights ) ) {
 		echo '<p>' . esc_html__( 'No insights published yet.', 'agrixpert' ) . '</p>';

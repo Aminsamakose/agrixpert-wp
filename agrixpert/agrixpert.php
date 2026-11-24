@@ -42,6 +42,7 @@ require_once AGRIXPERT_PLUGIN_DIR . 'includes/public/class-content-shortcodes.ph
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-images.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/data/class-page-library.php';
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/public/class-page-library-shortcodes.php';
+require_once AGRIXPERT_PLUGIN_DIR . 'includes/public/class-insight-routing.php';
 
 add_action( 'plugins_loaded', function () {
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-content-admin.php';
@@ -76,6 +77,10 @@ register_activation_hook( AGRIXPERT_PLUGIN_FILE, 'agrixpert_activate' );
  */
 function agrixpert_deactivate() {
 	do_action( 'agrixpert_deactivated' );
+	// Clean up the /insights/{slug} rewrite rule registered in
+	// includes/public/class-insight-routing.php — standard WP practice,
+	// not destructive (unlike uninstall.php, this never touches data).
+	flush_rewrite_rules();
 }
 register_deactivation_hook( AGRIXPERT_PLUGIN_FILE, 'agrixpert_deactivate' );
 

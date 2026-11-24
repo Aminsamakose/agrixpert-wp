@@ -65,5 +65,12 @@ class AgriXpert_Activation {
 		// that slug, same as every other seeding step here.
 		require_once AGRIXPERT_PLUGIN_DIR . 'includes/class-page-seeder.php';
 		AgriXpert_Page_Seeder::run();
+
+		// The /insights/{slug} rewrite rule (class-insight-routing.php) was
+		// already registered on 'init' earlier in this same request, so
+		// flushing now picks it up immediately — without this, individual
+		// insight pages 404 until something else happens to flush rewrite
+		// rules (e.g. visiting Settings → Permalinks).
+		flush_rewrite_rules();
 	}
 }

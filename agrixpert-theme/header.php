@@ -43,6 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				echo '<li><a href="' . esc_url( home_url( '/value-chains' ) ) . '">' . esc_html__( 'Value Chains', 'agrixpert-theme' ) . '</a></li>';
 				echo '<li><a href="' . esc_url( home_url( '/solutions' ) ) . '">' . esc_html__( 'Solutions', 'agrixpert-theme' ) . '</a></li>';
 				echo '<li><a href="' . esc_url( home_url( '/marketplace' ) ) . '">' . esc_html__( 'Marketplace', 'agrixpert-theme' ) . '</a></li>';
+				echo '<li><a href="' . esc_url( home_url( '/insights' ) ) . '">' . esc_html__( 'Insights', 'agrixpert-theme' ) . '</a></li>';
 				echo '<li><a href="' . esc_url( home_url( '/for-farmers' ) ) . '">' . esc_html__( 'For Farmers', 'agrixpert-theme' ) . '</a></li>';
 				echo '<li><a href="' . esc_url( home_url( '/for-buyers' ) ) . '">' . esc_html__( 'For Buyers', 'agrixpert-theme' ) . '</a></li>';
 				echo '<li><a href="' . esc_url( home_url( '/contact' ) ) . '">' . esc_html__( 'Contact', 'agrixpert-theme' ) . '</a></li>';
