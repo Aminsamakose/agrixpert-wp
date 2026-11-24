@@ -320,6 +320,15 @@ img {
 .agx-pagelib-hero img { aspect-ratio: 21/9; object-fit: cover; margin-bottom: 1.5rem; }
 .agx-pagelib-tagline { font-size: 1.15rem; color: var(--agx-text-softer); }
 
+/* Marketing sub-line under a seeded page's title (see class-page-seeder.php) — a lead paragraph, not a second h1, since page.php already renders the page title. */
+.agx-page-tagline {
+	font-family: var(--agx-font-heading);
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: var(--agx-forest-mid);
+	margin-bottom: 1.5rem;
+}
+
 .agx-mkt-grid, .agx-mkt-card, .agx-post-listing, .agx-service-fields {
 	/* layout inherited from plugin forms.css; theme only sets color/spacing context */
 }

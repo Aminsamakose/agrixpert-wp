@@ -72,15 +72,15 @@ class AgriXpert_Page_Seeder {
 		return array(
 			'about'            => array( 'title' => 'About Us', 'content' => self::about() ),
 			'what-we-do'       => array( 'title' => 'What We Do', 'content' => self::what_we_do() ),
-			'solutions'        => array( 'title' => 'Solutions', 'content' => '<h1>Our Core Business Solutions</h1><p>Six coordinated functions, one agricultural value chain.</p>[agrixpert_solutions]' ),
-			'value-chains'     => array( 'title' => 'Value Chains', 'content' => '<h1>Our Priority Agricultural Value Chains</h1><p>Additional value chains such as poultry and livestock can be introduced as dedicated expansion areas.</p>[agrixpert_value_chains]' ),
+			'solutions'        => array( 'title' => 'Solutions', 'content' => '<p class="agx-page-tagline">Our Core Business Solutions</p><p>Six coordinated functions, one agricultural value chain.</p>[agrixpert_solutions]' ),
+			'value-chains'     => array( 'title' => 'Value Chains', 'content' => '<p class="agx-page-tagline">Our Priority Agricultural Value Chains</p><p>Additional value chains such as poultry and livestock can be introduced as dedicated expansion areas.</p>[agrixpert_value_chains]' ),
 			'for-farmers'      => array( 'title' => 'For Farmers', 'content' => self::for_farmers() ),
 			'for-buyers'       => array( 'title' => 'For Buyers', 'content' => self::for_buyers() ),
 			'for-cooperatives' => array( 'title' => 'For Cooperatives', 'content' => self::for_cooperatives() ),
 			'partnerships'     => array( 'title' => 'Partnerships', 'content' => self::partnerships() ),
 			'contact'          => array( 'title' => 'Contact', 'content' => self::contact() ),
-			'marketplace'      => array( 'title' => 'Marketplace', 'content' => '<h1>Marketplace</h1>[agrixpert_marketplace]' ),
-			'portal'           => array( 'title' => 'My Account', 'content' => '<h1>My Account</h1>[agrixpert_portal]' ),
+			'marketplace'      => array( 'title' => 'Marketplace', 'content' => '[agrixpert_marketplace]' ),
+			'portal'           => array( 'title' => 'My Account', 'content' => '[agrixpert_portal]' ),
 			'privacy-policy'   => array( 'title' => 'Privacy Policy', 'content' => self::privacy_policy() ),
 			'cookie-policy'    => array( 'title' => 'Cookie Policy', 'content' => self::cookie_policy() ),
 			'terms-of-service' => array( 'title' => 'Terms of Service', 'content' => self::terms_of_service() ),
@@ -204,7 +204,7 @@ class AgriXpert_Page_Seeder {
 	}
 
 	private static function what_we_do() {
-		return '<h1>Six Coordinated Functions, One Agricultural Value Chain.</h1>'
+		return '<p class="agx-page-tagline">Six Coordinated Functions, One Agricultural Value Chain.</p>'
 		. '<p>We do not operate as a single-function service provider. AgriXpert organises farmers, agricultural service providers, aggregators, processors, logistics partners and buyers into a connected commercial system so that production reliably reaches profitable markets.</p>'
 		. '[agrixpert_solutions]'
 		. '<h2>Our Shared Commitment</h2>'
@@ -217,7 +217,7 @@ class AgriXpert_Page_Seeder {
 	}
 
 	private static function for_farmers() {
-		return '<h1>Farmer Registration, Production Support and Market Access</h1>'
+		return '<p class="agx-page-tagline">Farmer Registration, Production Support and Market Access</p>'
 		. '<h2>Benefits</h2><ul>'
 		. '<li>Access to structured markets.</li><li>Production planning and technical support.</li>'
 		. '<li>Mechanisation and agricultural services.</li><li>Commodity aggregation.</li>'
@@ -229,7 +229,7 @@ class AgriXpert_Page_Seeder {
 	}
 
 	private static function for_buyers() {
-		return '<h1>Commodity Sourcing, Procurement and Supply Agreements</h1>'
+		return '<p class="agx-page-tagline">Commodity Sourcing, Procurement and Supply Agreements</p>'
 		. '<h2>What You Can Do</h2><ul>'
 		. '<li>Submit commodity sourcing requests.</li><li>Specify commodity, quantity and quality.</li>'
 		. '<li>Access aggregated supply opportunities.</li><li>Establish procurement relationships.</li>'
@@ -240,7 +240,7 @@ class AgriXpert_Page_Seeder {
 	}
 
 	private static function for_cooperatives() {
-		return '<h1>Cooperative Registration, Group Market Access and Member Management</h1>'
+		return '<p class="agx-page-tagline">Cooperative Registration, Group Market Access and Member Management</p>'
 		. '<h2>Benefits</h2><ul>'
 		. '<li>Register your cooperative, VSLA, farmer group or association once, as a single entity.</li>'
 		. '<li>Access clustered-demand opportunities sized for group rather than individual volumes.</li>'
@@ -254,7 +254,7 @@ class AgriXpert_Page_Seeder {
 	}
 
 	private static function partnerships() {
-		return '<h1>Institutional, Commercial and Investment Partnerships</h1><ul>'
+		return '<ul>'
 		. '<li><strong>Institutional Partnerships</strong> &ndash; Collaboration with development organisations and government programmes.</li>'
 		. '<li><strong>Commercial Partnerships</strong> &ndash; Offtake agreements, processing collaborations and logistics partnerships.</li>'
 		. '<li><strong>Investment Partnerships</strong> &ndash; Capital and co-investment opportunities in supply-chain infrastructure.</li>'
@@ -265,7 +265,7 @@ class AgriXpert_Page_Seeder {
 	}
 
 	private static function contact() {
-		return '<h1>Enquiries and Business Contacts</h1>'
+		return '<p class="agx-page-tagline">Enquiries and Business Contacts</p>'
 		. '<p><strong>Email:</strong> <a href="mailto:' . self::CONTACT_EMAIL . '">' . self::CONTACT_EMAIL . '</a></p>'
 		. '<p><strong>Phone:</strong> +233 (0) 55-858-9254</p>'
 		. '<p><strong>Location:</strong> Tamale, Northern Ghana</p>'
@@ -280,7 +280,7 @@ class AgriXpert_Page_Seeder {
 	}
 
 	private static function privacy_policy() {
-		return '<h1>Privacy Policy</h1><p><em>Last updated: 2026</em></p>'
+		return '<p><em>Last updated: 2026</em></p>'
 		. '<h2>1. Introduction</h2><p>AgriXpert (&ldquo;AgriXpert&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo; or &ldquo;our&rdquo;), a platform operated by Samakose, is committed to protecting the privacy of farmers, buyers, suppliers, partners and other visitors (&ldquo;you&rdquo;) who use our website and platform. This Privacy Policy explains what personal data we collect, why we collect it, how we use and protect it, and the rights you have over it. It is intended to be consistent with Ghana&rsquo;s Data Protection Act, 2012 (Act 843) and with generally accepted international data protection principles.</p>'
 		. '<h2>2. Information We Collect</h2><p>We may collect the following categories of information:</p><ul>'
 		. '<li><strong>Identity and contact information:</strong> name, phone number, email address, physical or farm location, and business or organisation name.</li>'
@@ -308,7 +308,7 @@ class AgriXpert_Page_Seeder {
 	}
 
 	private static function cookie_policy() {
-		return '<h1>Cookie Policy</h1><p><em>Last updated: 2026</em></p>'
+		return '<p><em>Last updated: 2026</em></p>'
 		. '<h2>1. What Are Cookies</h2><p>Cookies are small text files placed on your device when you visit a website. They help the website function properly, remember your preferences, and understand how visitors use the site. This Cookie Policy explains how AgriXpert, a platform operated by Samakose, uses cookies and similar technologies on our website.</p>'
 		. '<h2>2. Types of Cookies We Use</h2><ul>'
 		. '<li><strong>Strictly necessary cookies:</strong> required for the website to function, such as enabling page navigation and secure access. These cannot be switched off.</li>'
@@ -324,7 +324,7 @@ class AgriXpert_Page_Seeder {
 	}
 
 	private static function terms_of_service() {
-		return '<h1>Terms of Service</h1><p><em>Last updated: 2026</em></p>'
+		return '<p><em>Last updated: 2026</em></p>'
 		. '<h2>1. Acceptance of Terms</h2><p>These Terms of Service (&ldquo;Terms&rdquo;) govern your access to and use of the AgriXpert website and platform, operated by Samakose (&ldquo;AgriXpert&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo; or &ldquo;our&rdquo;). By accessing or using our website, registering as a farmer, buyer or supplier, or otherwise engaging with our services, you agree to be bound by these Terms. If you do not agree, please do not use our website or services.</p>'
 		. '<h2>2. Description of Services</h2><p>AgriXpert provides an agricultural value-chain platform connecting farmers, buyers, suppliers and development partners, offering services that may include farmer registration and aggregation, mechanisation and farm services, commodity sourcing and procurement support, market and value-chain information, training and capacity building, and partnership facilitation. Not all services described on this website may be available in every location or at every stage of our rollout.</p>'
 		. '<h2>3. Eligibility and Registration</h2><p>To register as a farmer, buyer or supplier, you must be at least 18 years old and able to enter into legally binding agreements. You agree to provide accurate, current and complete information during registration and to update it as necessary. You are responsible for maintaining the confidentiality of any account credentials and for all activity under your account.</p>'
