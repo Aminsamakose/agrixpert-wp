@@ -96,3 +96,36 @@
 	gap: 6px;
 	margin-top: 6px;
 }
+
+/* Reports screen (includes/reporting/class-reporting-page.php) */
+.agx-report-table {
+	margin: 0.75rem 0 1.5rem;
+}
+.agx-report-table th,
+.agx-report-table td {
+	padding: 8px 10px;
+}
+.agx-report-bar-wrap {
+	position: relative;
+	background: #f0f0f1;
+	border-radius: 3px;
+	height: 20px;
+	min-width: 120px;
+	display: flex;
+	align-items: center;
+}
+.agx-report-bar {
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	background: #3a7d44;
+	border-radius: 3px;
+	opacity: 0.35;
+}
+.agx-report-bar-label {
+	position: relative;
+	padding-left: 8px;
+	font-weight: 600;
+	z-index: 1;
+}

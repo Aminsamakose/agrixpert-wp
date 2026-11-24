@@ -88,6 +88,7 @@ add_action( 'plugins_loaded', function () {
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/followups/class-followups-page.php';
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-marketplace-admin.php';
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/admin/class-images-admin.php';
+	require_once AGRIXPERT_PLUGIN_DIR . 'includes/reporting/class-reporting-page.php';
 }, 20 );
 
 add_action( 'wp_enqueue_scripts', function () {
