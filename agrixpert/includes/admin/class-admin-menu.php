@@ -187,6 +187,26 @@ class AgriXpert_Admin_Menu {
 	 * row actions), bulk actions from the list table form, and CSV export.
 	 * All three paths require a verified nonce AND the verify capability.
 	 */
+	/**
+	 * The list table's row actions and bulk-action dropdown use the
+	 * short verb 'verify' / 'reject' / 'reset' as their action identifier
+	 * (see class-verification-list-table.php's get_bulk_actions() and
+	 * row_action_url()) — but AgriXpert_Verification::decide() writes
+	 * its $decision argument directly into the verification_status
+	 * column, which must hold 'verified' / 'rejected' / 'pending' to
+	 * match the schema default and the status filter dropdown
+	 * (extra_tablenav()), and decide() only fires
+	 * 'agrixpert_verification_decided' when $decision is exactly
+	 * 'verified' or 'rejected'. Passing the short verb straight through
+	 * silently wrote 'verify'/'reject' into that column and never fired
+	 * the notification email. Fixed here; see docs/VERIFICATION-STATUS-FIX.md
+	 * for the one-time data check/fix this requires on top of the code fix.
+	 */
+	private static function map_decision_to_status( $action ) {
+		$map = array( 'verify' => 'verified', 'reject' => 'rejected', 'reset' => 'pending' );
+		return $map[ $action ] ?? $action;
+	}
+
 	public static function maybe_handle_action() {
 		if ( empty( $_GET['page'] ) || strpos( sanitize_key( $_GET['page'] ), 'agrixpert-' ) !== 0 ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
@@ -206,7 +226,7 @@ class AgriXpert_Admin_Menu {
 			$decision = sanitize_key( $_GET['agx_decision'] );
 			$result   = $entity_type === 'enquiry'
 				? AgriXpert_Verification::set_enquiry_status( $id, $decision, $user_id )
-				: AgriXpert_Verification::decide( $entity_type, $id, $decision === 'reset' ? 'pending' : $decision, $user_id );
+				: AgriXpert_Verification::decide( $entity_type, $id, self::map_decision_to_status( $decision ), $user_id );
 
 			self::redirect_with_notice( $entity_type, is_wp_error( $result ) ? 'error' : 'updated' );
 		}
@@ -234,8 +254,7 @@ class AgriXpert_Admin_Menu {
 					AgriXpert_Verification::set_enquiry_status( $id, $action, $user_id );
 				}
 			} else {
-				$decision = $action === 'reset' ? 'pending' : $action;
-				AgriXpert_Verification::bulk_decide( $entity_type, $ids, $decision, $user_id );
+				AgriXpert_Verification::bulk_decide( $entity_type, $ids, self::map_decision_to_status( $action ), $user_id );
 			}
 			self::redirect_with_notice( $entity_type, 'updated' );
 		}
