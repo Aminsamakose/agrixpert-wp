@@ -1,0 +1,110 @@
+/* Minimal, theme-agnostic styling for [agrixpert_value_chain(s)] and
+ * [agrixpert_solution(s)] output. Intentionally light-touch — the
+ * active WP theme's own typography/colors should carry most of the
+ * visual design; this only handles layout. */
+
+.agx-pagelib-grid {
+	display: grid;
+	gap: 1.5rem;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	margin: 1.5rem 0;
+}
+
+.agx-pagelib-card {
+	display: block;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 0.75rem;
+	padding: 1.25rem;
+	text-decoration: none;
+	color: inherit;
+}
+
+.agx-pagelib-card img {
+	width: 100%;
+	height: 140px;
+	object-fit: cover;
+	border-radius: 0.5rem;
+	margin-bottom: 0.75rem;
+}
+
+.agx-pagelib-number {
+	font-weight: 700;
+	font-size: 0.8rem;
+	opacity: 0.6;
+}
+
+.agx-pagelib-hero img {
+	width: 100%;
+	max-height: 360px;
+	object-fit: cover;
+	border-radius: 0.75rem;
+	margin-bottom: 1rem;
+}
+
+.agx-pagelib-tagline {
+	font-style: italic;
+	opacity: 0.8;
+}
+
+.agx-pagelib-section {
+	margin: 2rem 0;
+}
+
+.agx-pagelib-intro {
+	font-weight: 600;
+}
+
+.agx-pagelib-proposition,
+.agx-pagelib-closing-line {
+	font-weight: 600;
+	margin-top: 1rem;
+}
+
+.agx-pagelib-note {
+	font-size: 0.85rem;
+	opacity: 0.7;
+}
+
+.agx-pagelib-benefit-grid {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	margin-top: 1rem;
+}
+
+.agx-pagelib-benefit {
+	border-radius: 0.5rem;
+	background: rgba(0, 0, 0, 0.03);
+	padding: 1rem;
+}
+
+.agx-pagelib-closing {
+	margin: 2.5rem 0;
+	padding: 1.5rem;
+	border-radius: 0.75rem;
+	background: rgba(0, 0, 0, 0.04);
+	text-align: center;
+}
+
+.agx-pagelib-cta-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	justify-content: center;
+	margin-top: 1.25rem;
+}
+
+.agx-pagelib-cta {
+	display: flex;
+	flex-direction: column;
+	padding: 0.75rem 1.25rem;
+	border-radius: 0.5rem;
+	background: rgba(0, 0, 0, 0.08);
+	text-decoration: none;
+	color: inherit;
+}
+
+.agx-pagelib-cta small {
+	opacity: 0.7;
+	font-size: 0.75rem;
+}

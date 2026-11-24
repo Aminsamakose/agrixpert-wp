@@ -1,0 +1,74 @@
+{
+  "heroField": {
+    "src": "https://images.unsplash.com/photo-1704270269033-9600fcc6d0d7?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "A farmer standing in a cornfield"
+  },
+  "farmerField": {
+    "src": "https://images.unsplash.com/photo-1741874299706-2b8e16839aaa?fm=jpg&q=80&w=1600&auto=format&fit=crop",
+    "alt": "A farmer inspecting crops by hand in a green field"
+  },
+  "aggregationBags": {
+    "src": "https://images.unsplash.com/photo-1774946103680-3d34a461a581?fm=jpg&q=80&w=1600&auto=format&fit=crop",
+    "alt": "Neatly stacked sacks of aggregated commodity in a warehouse, ready for market"
+  },
+  "teamMeeting": {
+    "src": "https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "A group of people in a professional meeting"
+  },
+  "tractorField": {
+    "src": "https://images.unsplash.com/photo-1717702576954-c07131c54169?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "A tractor preparing land in a field at sunset"
+  },
+  "cropFieldsAerial": {
+    "src": "https://images.unsplash.com/photo-1757518417669-eaf434a7d877?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "Aerial view of agricultural fields with varied crops"
+  },
+  "dataCharts": {
+    "src": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "A person reviewing data charts and graphs on a laptop"
+  },
+  "handshake": {
+    "src": "https://images.unsplash.com/photo-1752159400890-d906038f1b35?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "Two business partners shaking hands in agreement"
+  },
+  "conferenceTable": {
+    "src": "https://images.unsplash.com/photo-1573167507387-6b4b98cb7c13?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "People at a conference table in discussion"
+  },
+  "dataScreen": {
+    "src": "https://images.unsplash.com/photo-1686061593213-98dad7c599b9?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "A computer screen displaying data"
+  },
+  "documentSigning": {
+    "src": "https://images.unsplash.com/photo-1763729805496-b5dbf7f00c79?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "A hand signing a document with a pen"
+  },
+  "warehouseLogistics": {
+    "src": "https://images.unsplash.com/photo-1721937127582-ed331de95a04?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "A forklift stacking wrapped pallets in a storage warehouse"
+  },
+  "packagingLine": {
+    "src": "https://images.unsplash.com/photo-1589793463357-5fb813435467?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "Workers at a packaging and processing production line"
+  },
+  "maizeHarvest": {
+    "src": "https://images.unsplash.com/photo-1700241739138-4ec27c548035?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "A combine harvester working through a golden maize field at sunrise"
+  },
+  "soybeanField": {
+    "src": "https://images.unsplash.com/photo-1758158329346-bed873fb6d9a?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "Close-up of a sunlit, ripe soybean field ready for harvest"
+  },
+  "ricePaddy": {
+    "src": "https://images.unsplash.com/photo-1728895604559-a4e16081504e?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "Close-up of green and gold rice stalks in a paddy field"
+  },
+  "groundnutsPile": {
+    "src": "https://images.unsplash.com/photo-1549978113-29eb25c8177f?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "Close-up of a pile of unshelled groundnuts"
+  },
+  "vegetableHarvest": {
+    "src": "https://images.unsplash.com/photo-1671528443617-26b1ecebb66f?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    "alt": "A close-up pile of freshly harvested ripe tomatoes"
+  }
+}

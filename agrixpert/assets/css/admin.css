@@ -1,0 +1,98 @@
+.agx-badge {
+	display: inline-block;
+	padding: 2px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+	text-transform: capitalize;
+	background: #e5e7eb;
+	color: #374151;
+}
+.agx-badge-verified,
+.agx-badge-resolved {
+	background: #dcfce7;
+	color: #166534;
+}
+.agx-badge-rejected,
+.agx-badge-archived {
+	background: #fee2e2;
+	color: #991b1b;
+}
+.agx-badge-pending,
+.agx-badge-new {
+	background: #fef3c7;
+	color: #92400e;
+}
+.agx-badge-in_progress,
+.agx-badge-contacted {
+	background: #dbeafe;
+	color: #1e40af;
+}
+.agx-badge-engaged,
+.agx-badge-active {
+	background: #d1fae5;
+	color: #065f46;
+}
+.agx-badge-dormant {
+	background: #fee2e2;
+	color: #991b1b;
+}
+.agx-crm-list {
+	max-width: 720px;
+}
+.agx-crm-list li {
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 6px;
+	padding: 0.75rem 1rem;
+	margin-bottom: 0.5rem;
+}
+.agx-crm-add {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	align-items: flex-start;
+	margin-bottom: 1rem;
+}
+.agx-staff-form {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	margin: 1rem 0;
+}
+
+/* Images admin screen (includes/admin/class-images-admin.php) */
+.agx-images-grid {
+	display: grid;
+	gap: 1.25rem;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	margin-top: 1.5rem;
+}
+.agx-image-card {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	padding: 12px;
+}
+.agx-image-preview {
+	width: 100%;
+	height: 140px;
+	object-fit: cover;
+	border-radius: 4px;
+	margin-bottom: 8px;
+	background: #f0f0f1;
+}
+.agx-image-label {
+	font-weight: 600;
+	margin: 0 0 8px;
+}
+.agx-image-form input[type="url"],
+.agx-image-form input[type="text"] {
+	margin-bottom: 6px;
+}
+.agx-image-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: 6px;
+}

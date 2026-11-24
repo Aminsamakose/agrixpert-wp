@@ -1,0 +1,132 @@
+/* AgriXpert registration/enquiry forms — deliberately minimal and
+   theme-agnostic (no color/font overrides) so it inherits the active
+   WordPress theme's styling rather than fighting it. A theme-specific
+   skin can be layered on later via agrixpert_value_chains-style filters
+   or child-theme CSS, without touching plugin markup. */
+
+.agx-form {
+	max-width: 640px;
+}
+.agx-form-grid {
+	display: grid;
+	gap: 1rem;
+}
+.agx-field {
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+}
+.agx-field input[type="text"],
+.agx-field input[type="email"],
+.agx-field input[type="tel"],
+.agx-field input[type="number"],
+.agx-field select,
+.agx-field textarea {
+	padding: 0.5rem 0.75rem;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 0.5rem;
+	font: inherit;
+}
+.agx-optional {
+	font-weight: normal;
+	opacity: 0.6;
+}
+.agx-checkbox-group {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+	gap: 0.5rem;
+}
+.agx-checkbox {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-weight: normal;
+}
+.agx-consent label {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.5rem;
+	font-weight: normal;
+	font-size: 0.9em;
+}
+.agx-form-error {
+	color: #b91c1c;
+	font-weight: 600;
+}
+.agx-form-success {
+	border: 1px solid rgba(0, 128, 0, 0.3);
+	background: rgba(0, 128, 0, 0.06);
+	border-radius: 0.75rem;
+	padding: 1.25rem;
+}
+.agx-insights-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 1.5rem;
+}
+.agx-insight-card img {
+	width: 100%;
+	height: 160px;
+	object-fit: cover;
+	border-radius: 0.5rem;
+}
+.agx-insight-category {
+	font-size: 0.75em;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	opacity: 0.6;
+}
+.agx-insight-meta {
+	font-size: 0.85em;
+	opacity: 0.6;
+}
+.agx-mkt-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 1rem;
+	margin-top: 1rem;
+}
+.agx-mkt-card {
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	border-radius: 0.75rem;
+	padding: 1rem;
+}
+.agx-mkt-location {
+	opacity: 0.7;
+	font-size: 0.9em;
+}
+.agx-mkt-action {
+	margin-top: 0.75rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+	align-items: center;
+}
+.agx-post-listing {
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	border-radius: 0.75rem;
+	padding: 1rem;
+	margin-bottom: 1.5rem;
+}
+.agx-post-listing summary {
+	cursor: pointer;
+	font-weight: 600;
+}
+.agx-service-fields {
+	margin-top: 0.75rem;
+	border: 1px dashed rgba(0, 0, 0, 0.2);
+	border-radius: 0.5rem;
+	padding: 0.75rem;
+}
+.agx-form-success-inline {
+	color: #166534;
+	font-weight: 600;
+}
+.agx-submit {
+	align-self: flex-start;
+	padding: 0.65rem 1.5rem;
+	border-radius: 999px;
+	border: none;
+	cursor: pointer;
+	font-weight: 600;
+}
