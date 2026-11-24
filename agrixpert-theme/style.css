@@ -1,0 +1,357 @@
+/*
+Theme Name: AgriXpert
+Theme URI: https://agrixpert.samakose.com
+Author: Samakose Accelerator Lab
+Author URI: https://www.samakose.com
+Description: Theme for AgriXpert, Samakose's agricultural value-chain integration platform. Pairs with the AgriXpert plugin (data, forms, marketplace, portal) — this theme supplies the visual shell only: header, footer, page templates and the one-page "whole system" home layout. Design language carried over from the live Next.js app and the System design canvas (Space Grotesk headings, DM Sans body, forest-green/harvest-gold palette).
+Version: 1.0.0
+Requires at least: 6.0
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: agrixpert-theme
+*/
+
+/* Design tokens, matched to System.dc.html / the live app's forest + harvest-gold palette. */
+:root {
+	--agx-forest-dark: #1f2a1f;
+	--agx-forest: #2e5029;
+	--agx-forest-mid: #3f6b3a;
+	--agx-text: #334033;
+	--agx-text-soft: #4a5541;
+	--agx-text-softer: #5a6b55;
+	--agx-text-faint: #6b7566;
+	--agx-sage: #8fa08a;
+	--agx-sage-light: #b9c6b2;
+	--agx-sage-pale: #c9d6c6;
+	--agx-bg-sage: #e7efe3;
+	--agx-bg-cream: #f6f4ef;
+	--agx-bg-warm: #f3ece0;
+	--agx-bg-warm-2: #eceadd;
+	--agx-bg-warm-3: #e3e0d4;
+	--agx-gold: #c9a267;
+	--agx-gold-dark: #8a6a3c;
+	--agx-white: #ffffff;
+	--agx-font-heading: 'Space Grotesk', 'DM Sans', sans-serif;
+	--agx-font-body: 'DM Sans', 'Inter', system-ui, sans-serif;
+	--agx-radius: 1rem;
+	--agx-radius-sm: 0.6rem;
+	--agx-max-width: 1200px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	font-family: var(--agx-font-body);
+	color: var(--agx-text);
+	background: var(--agx-bg-cream);
+	line-height: 1.6;
+	font-size: 16px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--agx-font-heading);
+	color: var(--agx-forest-dark);
+	line-height: 1.15;
+	margin: 0 0 0.6em;
+}
+
+h1 { font-size: clamp(2rem, 4vw, 3rem); }
+h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); }
+h3 { font-size: 1.25rem; }
+
+p {
+	margin: 0 0 1em;
+	color: var(--agx-text-soft);
+}
+
+a {
+	color: var(--agx-forest-mid);
+}
+
+img {
+	max-width: 100%;
+	display: block;
+	border-radius: var(--agx-radius-sm);
+}
+
+.agx-container {
+	max-width: var(--agx-max-width);
+	margin: 0 auto;
+	padding: 0 1.5rem;
+}
+
+/* ---- Header / nav ---- */
+
+.agx-site-header {
+	background: var(--agx-white);
+	border-bottom: 1px solid var(--agx-bg-warm-3);
+	position: sticky;
+	top: 0;
+	z-index: 50;
+}
+
+.agx-header-inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1rem 1.5rem;
+	max-width: var(--agx-max-width);
+	margin: 0 auto;
+	gap: 1rem;
+}
+
+.agx-site-branding {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	text-decoration: none;
+}
+
+.agx-site-branding img {
+	height: 36px;
+	width: auto;
+	border-radius: 0;
+}
+
+.agx-site-title {
+	font-family: var(--agx-font-heading);
+	font-weight: 700;
+	font-size: 1.25rem;
+	color: var(--agx-forest-dark);
+}
+
+.agx-primary-nav ul {
+	list-style: none;
+	display: flex;
+	gap: 1.75rem;
+	margin: 0;
+	padding: 0;
+	flex-wrap: wrap;
+}
+
+.agx-primary-nav a {
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 0.9rem;
+	color: var(--agx-text);
+}
+
+.agx-primary-nav a:hover {
+	color: var(--agx-forest-mid);
+}
+
+.agx-nav-cta {
+	background: var(--agx-forest);
+	color: var(--agx-white) !important;
+	padding: 0.5rem 1.1rem;
+	border-radius: 999px;
+}
+
+.agx-menu-toggle {
+	display: none;
+	background: none;
+	border: 1px solid var(--agx-bg-warm-3);
+	border-radius: 0.5rem;
+	padding: 0.4rem 0.6rem;
+	font-size: 1.1rem;
+}
+
+@media (max-width: 820px) {
+	.agx-primary-nav { display: none; width: 100%; }
+	.agx-primary-nav.is-open { display: block; }
+	.agx-primary-nav ul { flex-direction: column; gap: 0.75rem; padding: 1rem 0; }
+	.agx-menu-toggle { display: inline-block; }
+	.agx-header-inner { flex-wrap: wrap; }
+}
+
+/* ---- Buttons ---- */
+
+.agx-btn {
+	display: inline-block;
+	padding: 0.85rem 1.75rem;
+	border-radius: 999px;
+	font-weight: 600;
+	font-size: 0.95rem;
+	text-decoration: none;
+	border: 2px solid transparent;
+	cursor: pointer;
+}
+
+.agx-btn-primary {
+	background: var(--agx-forest);
+	color: var(--agx-white);
+}
+.agx-btn-primary:hover { background: var(--agx-forest-dark); color: var(--agx-white); }
+
+.agx-btn-gold {
+	background: var(--agx-gold);
+	color: var(--agx-forest-dark);
+}
+.agx-btn-gold:hover { background: var(--agx-gold-dark); color: var(--agx-white); }
+
+.agx-btn-outline {
+	background: transparent;
+	border-color: var(--agx-forest);
+	color: var(--agx-forest);
+}
+.agx-btn-outline:hover { background: var(--agx-forest); color: var(--agx-white); }
+
+/* ---- Sections (used across front-page.php) ---- */
+
+.agx-section {
+	padding: 5rem 0;
+}
+
+.agx-section-tight { padding: 3rem 0; }
+
+.agx-section-dark {
+	background: var(--agx-forest-dark);
+	color: var(--agx-white);
+}
+.agx-section-dark h2, .agx-section-dark h3 { color: var(--agx-white); }
+.agx-section-dark p { color: var(--agx-sage-pale); }
+
+.agx-section-sage { background: var(--agx-bg-sage); }
+.agx-section-warm { background: var(--agx-bg-warm); }
+
+.agx-eyebrow {
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	font-size: 0.78rem;
+	font-weight: 700;
+	color: var(--agx-forest-mid);
+	margin-bottom: 0.75rem;
+	display: inline-block;
+}
+.agx-section-dark .agx-eyebrow { color: var(--agx-gold); }
+
+.agx-hero {
+	padding: 6rem 0 5rem;
+	background: linear-gradient(160deg, var(--agx-forest-dark), var(--agx-forest) 70%);
+	color: var(--agx-white);
+	text-align: center;
+}
+.agx-hero h1 { color: var(--agx-white); }
+.agx-hero p { color: var(--agx-sage-pale); max-width: 640px; margin: 0 auto 1.5rem; }
+.agx-hero .agx-cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+.agx-grid {
+	display: grid;
+	gap: 1.5rem;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.agx-card {
+	background: var(--agx-white);
+	border-radius: var(--agx-radius);
+	padding: 1.75rem;
+	border: 1px solid var(--agx-bg-warm-3);
+}
+
+.agx-card h3 { margin-bottom: 0.5rem; }
+.agx-card p { color: var(--agx-text-softer); margin-bottom: 0; }
+
+.agx-step-number {
+	font-family: var(--agx-font-heading);
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--agx-forest-mid);
+	margin-bottom: 0.4rem;
+}
+
+.agx-stats-grid {
+	display: grid;
+	gap: 2rem;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	text-align: center;
+}
+.agx-stat-number {
+	font-family: var(--agx-font-heading);
+	font-size: 2.25rem;
+	font-weight: 700;
+	color: var(--agx-gold);
+}
+.agx-stat-label { color: var(--agx-sage-pale); font-size: 0.9rem; }
+
+/* ---- Plugin content pages (marketplace, portal, value-chain grids) ---- */
+
+.agx-page-content {
+	max-width: var(--agx-max-width);
+	margin: 0 auto;
+	padding: 3rem 1.5rem 5rem;
+}
+
+.agx-pagelib-grid {
+	display: grid;
+	gap: 1.5rem;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	margin: 2rem 0;
+}
+.agx-pagelib-card {
+	display: block;
+	text-decoration: none;
+	background: var(--agx-white);
+	border-radius: var(--agx-radius);
+	overflow: hidden;
+	border: 1px solid var(--agx-bg-warm-3);
+	color: inherit;
+}
+.agx-pagelib-card img { border-radius: 0; aspect-ratio: 16/10; object-fit: cover; }
+.agx-pagelib-card h3, .agx-pagelib-card p { padding: 0 1.25rem; }
+.agx-pagelib-card h3 { margin-top: 1rem; }
+.agx-pagelib-card p { margin-bottom: 1.25rem; color: var(--agx-text-faint); }
+.agx-pagelib-number {
+	display: inline-block;
+	margin: 1rem 1.25rem -0.5rem;
+	font-family: var(--agx-font-heading);
+	color: var(--agx-gold-dark);
+	font-weight: 700;
+}
+
+.agx-pagelib-hero { text-align: center; margin-bottom: 2rem; }
+.agx-pagelib-hero img { aspect-ratio: 21/9; object-fit: cover; margin-bottom: 1.5rem; }
+.agx-pagelib-tagline { font-size: 1.15rem; color: var(--agx-text-softer); }
+
+.agx-mkt-grid, .agx-mkt-card, .agx-post-listing, .agx-service-fields {
+	/* layout inherited from plugin forms.css; theme only sets color/spacing context */
+}
+.agx-mkt-grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 1.5rem; }
+.agx-mkt-card { background: var(--agx-white); border: 1px solid var(--agx-bg-warm-3); border-radius: var(--agx-radius); padding: 1.25rem; }
+.agx-post-listing { background: var(--agx-bg-sage); border-radius: var(--agx-radius); padding: 1.5rem; margin-bottom: 1.5rem; }
+
+/* ---- Footer ---- */
+
+.agx-site-footer {
+	background: var(--agx-forest-dark);
+	color: var(--agx-sage-pale);
+	padding: 3.5rem 0 2rem;
+}
+.agx-footer-grid {
+	display: grid;
+	gap: 2rem;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	margin-bottom: 2rem;
+}
+.agx-footer-grid h4 { color: var(--agx-white); font-size: 0.95rem; margin-bottom: 0.9rem; }
+.agx-footer-grid ul { list-style: none; margin: 0; padding: 0; }
+.agx-footer-grid li { margin-bottom: 0.5rem; }
+.agx-footer-grid a { color: var(--agx-sage-pale); text-decoration: none; font-size: 0.9rem; }
+.agx-footer-grid a:hover { color: var(--agx-white); }
+.agx-footer-bottom {
+	border-top: 1px solid rgba(255,255,255,0.12);
+	padding-top: 1.5rem;
+	font-size: 0.8rem;
+	color: var(--agx-sage);
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
