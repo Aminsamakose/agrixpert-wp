@@ -78,6 +78,7 @@ require_once AGRIXPERT_PLUGIN_DIR . 'includes/content/class-insight-routing.php'
 
 // New in this rebuild — see the file header above and the class's own docblock.
 require_once AGRIXPERT_PLUGIN_DIR . 'includes/authentication/class-registration-auth.php';
+require_once AGRIXPERT_PLUGIN_DIR . 'includes/api/class-rest-api.php';
 
 add_action( 'plugins_loaded', function () {
 	require_once AGRIXPERT_PLUGIN_DIR . 'includes/content/class-content-admin.php';
