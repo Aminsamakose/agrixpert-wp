@@ -3,8 +3,8 @@ Theme Name: AgriXpert
 Theme URI: https://agrixpert.samakose.com
 Author: Samakose Accelerator Lab
 Author URI: https://www.samakose.com
-Description: Theme for AgriXpert, Samakose's agricultural value-chain integration platform. Pairs with the AgriXpert plugin (data, forms, marketplace, portal) — this theme supplies the visual shell only: header, footer, page templates and the one-page "whole system" home layout. Design language carried over from the live Next.js app and the System design canvas (Space Grotesk headings, DM Sans body, forest-green/harvest-gold palette).
-Version: 1.0.0
+Description: Theme for AgriXpert, Samakose's agricultural value-chain integration platform. Pairs with the AgriXpert plugin (data, forms, marketplace, portal) — this theme supplies the visual shell only: header, footer, page templates and the one-page "whole system" home layout. Visual identity grounded in Northern Ghana's own material palette — laterite clay, indigo-dyed smock cloth, sorghum and shea — rather than a generic tech-green look.
+Version: 1.1.0
 Requires at least: 6.0
 Requires PHP: 7.4
 License: GNU General Public License v2 or later
@@ -12,30 +12,29 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: agrixpert-theme
 */
 
-/* Design tokens, matched to System.dc.html / the live app's forest + harvest-gold palette. */
+/* Design tokens — named for the material they come from, not for a generic
+   "brand color" scheme: clay is laterite soil, indigo is dye from Northern
+   smocks, sorghum is the staple grain, cream is shea butter. */
 :root {
-	--agx-forest-dark: #1f2a1f;
-	--agx-forest: #2e5029;
-	--agx-forest-mid: #3f6b3a;
-	--agx-text: #334033;
-	--agx-text-soft: #4a5541;
-	--agx-text-softer: #5a6b55;
-	--agx-text-faint: #6b7566;
-	--agx-sage: #8fa08a;
-	--agx-sage-light: #b9c6b2;
-	--agx-sage-pale: #c9d6c6;
-	--agx-bg-sage: #e7efe3;
-	--agx-bg-cream: #f6f4ef;
-	--agx-bg-warm: #f3ece0;
-	--agx-bg-warm-2: #eceadd;
-	--agx-bg-warm-3: #e3e0d4;
-	--agx-gold: #c9a267;
-	--agx-gold-dark: #8a6a3c;
+	--agx-clay: #AB4425;
+	--agx-clay-dark: #7E3119;
+	--agx-indigo: #22314F;
+	--agx-indigo-deep: #16213A;
+	--agx-sorghum: #D9A441;
+	--agx-sorghum-dark: #A87824;
+	--agx-chili: #A3233B;
+	--agx-cream: #EFE6D3;
+	--agx-cream-light: #F8F3E8;
+	--agx-paper: #FDFBF6;
+	--agx-soil: #3A2E26;
+	--agx-soil-soft: #5C4D40;
+	--agx-soil-faint: #8B7A6B;
+	--agx-line: #DCCFB4;
 	--agx-white: #ffffff;
-	--agx-font-heading: 'Space Grotesk', 'DM Sans', sans-serif;
-	--agx-font-body: 'DM Sans', 'Inter', system-ui, sans-serif;
-	--agx-radius: 1rem;
-	--agx-radius-sm: 0.6rem;
+	--agx-font-display: 'Fraunces', 'Georgia', serif;
+	--agx-font-body: 'Work Sans', 'Segoe UI', system-ui, sans-serif;
+	--agx-radius: 0.35rem;
+	--agx-radius-sm: 0.2rem;
 	--agx-max-width: 1200px;
 }
 
@@ -47,33 +46,45 @@ html {
 	scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+	html { scroll-behavior: auto; }
+	* { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
 body {
 	margin: 0;
 	font-family: var(--agx-font-body);
-	color: var(--agx-text);
-	background: var(--agx-bg-cream);
+	color: var(--agx-soil);
+	background: var(--agx-paper);
 	line-height: 1.6;
 	font-size: 16px;
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: var(--agx-font-heading);
-	color: var(--agx-forest-dark);
-	line-height: 1.15;
+	font-family: var(--agx-font-display);
+	font-weight: 600;
+	color: var(--agx-indigo);
+	line-height: 1.18;
 	margin: 0 0 0.6em;
 }
 
-h1 { font-size: clamp(2rem, 4vw, 3rem); }
-h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); }
-h3 { font-size: 1.25rem; }
+h1 { font-size: clamp(2.1rem, 4.4vw, 3.4rem); font-weight: 500; }
+h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); }
+h3 { font-size: 1.3rem; }
 
 p {
 	margin: 0 0 1em;
-	color: var(--agx-text-soft);
+	color: var(--agx-soil-soft);
+	max-width: 62ch;
 }
 
 a {
-	color: var(--agx-forest-mid);
+	color: var(--agx-clay);
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+	outline: 2px solid var(--agx-indigo);
+	outline-offset: 2px;
 }
 
 img {
@@ -91,8 +102,8 @@ img {
 /* ---- Header / nav ---- */
 
 .agx-site-header {
-	background: var(--agx-white);
-	border-bottom: 1px solid var(--agx-bg-warm-3);
+	background: var(--agx-paper);
+	border-bottom: 2px solid var(--agx-soil);
 	position: sticky;
 	top: 0;
 	z-index: 50;
@@ -102,7 +113,7 @@ img {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 1rem 1.5rem;
+	padding: 1.1rem 1.5rem;
 	max-width: var(--agx-max-width);
 	margin: 0 auto;
 	gap: 1rem;
@@ -122,52 +133,58 @@ img {
 }
 
 .agx-site-title {
-	font-family: var(--agx-font-heading);
-	font-weight: 700;
-	font-size: 1.25rem;
-	color: var(--agx-forest-dark);
+	font-family: var(--agx-font-display);
+	font-weight: 600;
+	font-size: 1.3rem;
+	color: var(--agx-indigo);
 }
 
 .agx-primary-nav ul {
 	list-style: none;
 	display: flex;
-	gap: 1.75rem;
+	gap: 1.85rem;
 	margin: 0;
 	padding: 0;
 	flex-wrap: wrap;
+	align-items: center;
 }
 
 .agx-primary-nav a {
 	text-decoration: none;
-	font-weight: 600;
-	font-size: 0.9rem;
-	color: var(--agx-text);
+	font-weight: 500;
+	font-size: 0.95rem;
+	color: var(--agx-soil);
+	border-bottom: 1px solid transparent;
+	padding-bottom: 2px;
 }
 
 .agx-primary-nav a:hover {
-	color: var(--agx-forest-mid);
+	color: var(--agx-clay);
+	border-bottom-color: var(--agx-clay);
 }
 
 .agx-nav-cta {
-	background: var(--agx-forest);
+	background: var(--agx-indigo);
 	color: var(--agx-white) !important;
-	padding: 0.5rem 1.1rem;
-	border-radius: 999px;
+	padding: 0.55rem 1.2rem;
+	border-bottom: none !important;
 }
+.agx-nav-cta:hover { background: var(--agx-indigo-deep); }
 
 .agx-menu-toggle {
 	display: none;
 	background: none;
-	border: 1px solid var(--agx-bg-warm-3);
-	border-radius: 0.5rem;
+	border: 1px solid var(--agx-soil);
+	border-radius: var(--agx-radius-sm);
 	padding: 0.4rem 0.6rem;
 	font-size: 1.1rem;
+	color: var(--agx-soil);
 }
 
 @media (max-width: 820px) {
 	.agx-primary-nav { display: none; width: 100%; }
 	.agx-primary-nav.is-open { display: block; }
-	.agx-primary-nav ul { flex-direction: column; gap: 0.75rem; padding: 1rem 0; }
+	.agx-primary-nav ul { flex-direction: column; align-items: flex-start; gap: 0.9rem; padding: 1rem 0; }
 	.agx-menu-toggle { display: inline-block; }
 	.agx-header-inner { flex-wrap: wrap; }
 }
@@ -177,32 +194,33 @@ img {
 .agx-btn {
 	display: inline-block;
 	padding: 0.85rem 1.75rem;
-	border-radius: 999px;
+	border-radius: var(--agx-radius);
 	font-weight: 600;
 	font-size: 0.95rem;
 	text-decoration: none;
 	border: 2px solid transparent;
 	cursor: pointer;
+	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
 .agx-btn-primary {
-	background: var(--agx-forest);
+	background: var(--agx-clay);
 	color: var(--agx-white);
 }
-.agx-btn-primary:hover { background: var(--agx-forest-dark); color: var(--agx-white); }
+.agx-btn-primary:hover { background: var(--agx-clay-dark); color: var(--agx-white); }
 
 .agx-btn-gold {
-	background: var(--agx-gold);
-	color: var(--agx-forest-dark);
+	background: var(--agx-sorghum);
+	color: var(--agx-indigo-deep);
 }
-.agx-btn-gold:hover { background: var(--agx-gold-dark); color: var(--agx-white); }
+.agx-btn-gold:hover { background: var(--agx-sorghum-dark); color: var(--agx-white); }
 
 .agx-btn-outline {
 	background: transparent;
-	border-color: var(--agx-forest);
-	color: var(--agx-forest);
+	border-color: var(--agx-indigo);
+	color: var(--agx-indigo);
 }
-.agx-btn-outline:hover { background: var(--agx-forest); color: var(--agx-white); }
+.agx-btn-outline:hover { background: var(--agx-indigo); color: var(--agx-white); }
 
 /* ---- Sections (used across front-page.php) ---- */
 
@@ -213,35 +231,99 @@ img {
 .agx-section-tight { padding: 3rem 0; }
 
 .agx-section-dark {
-	background: var(--agx-forest-dark);
+	background: var(--agx-indigo-deep);
 	color: var(--agx-white);
 }
 .agx-section-dark h2, .agx-section-dark h3 { color: var(--agx-white); }
-.agx-section-dark p { color: var(--agx-sage-pale); }
+.agx-section-dark p { color: #C7CDDC; }
 
-.agx-section-sage { background: var(--agx-bg-sage); }
-.agx-section-warm { background: var(--agx-bg-warm); }
+.agx-section-sage { background: var(--agx-cream); }
+.agx-section-warm { background: var(--agx-cream-light); }
 
+/* A left rule + sentence-case label standing in for the uppercase/tracked
+   "eyebrow" pattern — it marks a section the same way without shouting. */
 .agx-eyebrow {
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	font-size: 0.78rem;
-	font-weight: 700;
-	color: var(--agx-forest-mid);
-	margin-bottom: 0.75rem;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.6rem;
+	font-size: 0.95rem;
+	font-weight: 500;
+	font-style: italic;
+	color: var(--agx-clay);
+	margin-bottom: 0.9rem;
+}
+.agx-eyebrow::before {
+	content: "";
+	width: 2rem;
+	height: 2px;
+	background: var(--agx-clay);
 	display: inline-block;
 }
-.agx-section-dark .agx-eyebrow { color: var(--agx-gold); }
+.agx-section-dark .agx-eyebrow { color: var(--agx-sorghum); }
+.agx-section-dark .agx-eyebrow::before { background: var(--agx-sorghum); }
+
+/* ---- Hero: a woven-strip motif stands in for stock photography — thin
+   alternating indigo/clay/cream bands, the structure of hand-woven smock
+   cloth, rather than a gradient or a placeholder photo of a farmer. ---- */
 
 .agx-hero {
-	padding: 6rem 0 5rem;
-	background: linear-gradient(160deg, var(--agx-forest-dark), var(--agx-forest) 70%);
-	color: var(--agx-white);
-	text-align: center;
+	padding: 4.5rem 0 4rem;
+	background: var(--agx-cream-light);
+	color: var(--agx-soil);
+	border-bottom: 2px solid var(--agx-soil);
+	position: relative;
+	overflow: hidden;
 }
-.agx-hero h1 { color: var(--agx-white); }
-.agx-hero p { color: var(--agx-sage-pale); max-width: 640px; margin: 0 auto 1.5rem; }
-.agx-hero .agx-cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+.agx-hero-inner {
+	display: grid;
+	grid-template-columns: 1.15fr 0.85fr;
+	gap: 3rem;
+	align-items: center;
+}
+
+@media (max-width: 900px) {
+	.agx-hero-inner { grid-template-columns: 1fr; }
+}
+
+.agx-hero-copy { text-align: left; }
+.agx-hero h1 { color: var(--agx-indigo); margin-bottom: 0.5rem; }
+.agx-hero p { color: var(--agx-soil-soft); max-width: 50ch; margin: 0 0 1.75rem; font-size: 1.08rem; }
+.agx-hero .agx-cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.agx-hero-weave {
+	height: 280px;
+	border-radius: var(--agx-radius);
+	background: repeating-linear-gradient(
+		100deg,
+		var(--agx-indigo) 0px,
+		var(--agx-indigo) 22px,
+		var(--agx-cream-light) 22px,
+		var(--agx-cream-light) 26px,
+		var(--agx-clay) 26px,
+		var(--agx-clay) 30px,
+		var(--agx-cream-light) 30px,
+		var(--agx-cream-light) 34px
+	);
+	position: relative;
+	border: 2px solid var(--agx-soil);
+}
+.agx-hero-weave::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: repeating-linear-gradient(
+		0deg,
+		rgba(61, 46, 38, 0.1) 0px,
+		rgba(61, 46, 38, 0.1) 3px,
+		transparent 3px,
+		transparent 38px
+	);
+}
+
+@media (max-width: 900px) {
+	.agx-hero-weave { height: 160px; }
+}
 
 .agx-grid {
 	display: grid;
@@ -253,33 +335,110 @@ img {
 	background: var(--agx-white);
 	border-radius: var(--agx-radius);
 	padding: 1.75rem;
-	border: 1px solid var(--agx-bg-warm-3);
+	border: 1px solid var(--agx-line);
 }
 
 .agx-card h3 { margin-bottom: 0.5rem; }
-.agx-card p { color: var(--agx-text-softer); margin-bottom: 0; }
+.agx-card p { color: var(--agx-soil-soft); margin-bottom: 0; }
+
+/* ---- The Problem: a ledger, not a card grid — each row carries its own
+   accent color (clay/sorghum/indigo) via a left bar, read top to bottom
+   rather than scanned as identical tiles. ---- */
+
+.agx-ledger {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	border-top: 1px solid var(--agx-line);
+}
+
+.agx-ledger-row {
+	display: grid;
+	grid-template-columns: 1fr 2.2fr;
+	gap: 2rem;
+	padding: 1.75rem 0;
+	border-bottom: 1px solid var(--agx-line);
+	border-left: 4px solid var(--agx-soil);
+	padding-left: 1.5rem;
+}
+
+.agx-ledger-row--clay { border-left-color: var(--agx-clay); }
+.agx-ledger-row--sorghum { border-left-color: var(--agx-sorghum-dark); }
+.agx-ledger-row--indigo { border-left-color: var(--agx-indigo); }
+
+.agx-ledger-row h3 {
+	font-size: 1.15rem;
+	margin: 0;
+}
+.agx-ledger-row p { margin: 0; color: var(--agx-soil-soft); }
+
+@media (max-width: 720px) {
+	.agx-ledger-row { grid-template-columns: 1fr; gap: 0.5rem; }
+}
+
+/* ---- How it works: genuinely sequential, so the numbering stays — styled
+   as a connected strip rather than four identical boxes. ---- */
+
+.agx-process {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 0;
+	border-top: 2px solid var(--agx-soil);
+}
+
+.agx-process-step {
+	padding: 1.75rem 1.5rem 1.5rem;
+	border-right: 1px solid var(--agx-line);
+}
+.agx-process-step:last-child { border-right: none; }
 
 .agx-step-number {
-	font-family: var(--agx-font-heading);
-	font-size: 1.75rem;
-	font-weight: 700;
-	color: var(--agx-forest-mid);
+	font-family: var(--agx-font-display);
+	font-size: 2rem;
+	font-weight: 500;
+	color: var(--agx-clay);
 	margin-bottom: 0.4rem;
+	display: block;
 }
 
-.agx-stats-grid {
-	display: grid;
-	gap: 2rem;
-	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-	text-align: center;
+@media (max-width: 720px) {
+	.agx-process { grid-template-columns: 1fr; }
+	.agx-process-step { border-right: none; border-bottom: 1px solid var(--agx-line); }
 }
-.agx-stat-number {
-	font-family: var(--agx-font-heading);
-	font-size: 2.25rem;
-	font-weight: 700;
-	color: var(--agx-gold);
+
+/* ---- Who it's for: color-coded by actor role, carried through the whole
+   site (same roles reused in the ledger/stats) rather than a uniform grid. ---- */
+
+.agx-role-card {
+	background: var(--agx-white);
+	border-radius: var(--agx-radius);
+	padding: 1.6rem;
+	border-top: 4px solid var(--agx-soil);
 }
-.agx-stat-label { color: var(--agx-sage-pale); font-size: 0.9rem; }
+.agx-role-card--farmer { border-top-color: var(--agx-sorghum-dark); }
+.agx-role-card--buyer { border-top-color: var(--agx-clay); }
+.agx-role-card--supplier { border-top-color: var(--agx-indigo); }
+.agx-role-card--cooperative { border-top-color: var(--agx-chili); }
+.agx-role-card h3 { margin-bottom: 0.4rem; }
+.agx-role-card p { margin-bottom: 0; color: var(--agx-soil-soft); }
+
+/* ---- Impact: one flowing editorial line instead of big-number stat tiles. ---- */
+
+.agx-impact-line {
+	font-family: var(--agx-font-display);
+	font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+	font-weight: 400;
+	font-style: italic;
+	line-height: 1.5;
+	color: var(--agx-white);
+	max-width: 46ch;
+}
+.agx-impact-line strong {
+	font-style: normal;
+	font-weight: 600;
+	color: var(--agx-sorghum);
+	border-bottom: 2px solid var(--agx-sorghum);
+}
 
 /* ---- Plugin content pages (marketplace, portal, value-chain grids) ---- */
 
@@ -301,47 +460,59 @@ img {
 	background: var(--agx-white);
 	border-radius: var(--agx-radius);
 	overflow: hidden;
-	border: 1px solid var(--agx-bg-warm-3);
+	border: 1px solid var(--agx-line);
+	border-top: 4px solid var(--agx-soil);
 	color: inherit;
+	transition: border-top-color 0.15s ease;
 }
+/* Cycle the three role accents across repeating cards so a directory of
+   value chains / solutions reads with some internal variety rather than
+   one uniform tile repeated N times. */
+.agx-pagelib-card:nth-of-type(3n+1) { border-top-color: var(--agx-clay); }
+.agx-pagelib-card:nth-of-type(3n+2) { border-top-color: var(--agx-sorghum-dark); }
+.agx-pagelib-card:nth-of-type(3n+3) { border-top-color: var(--agx-indigo); }
 .agx-pagelib-card img { border-radius: 0; aspect-ratio: 16/10; object-fit: cover; }
 .agx-pagelib-card h3, .agx-pagelib-card p { padding: 0 1.25rem; }
 .agx-pagelib-card h3 { margin-top: 1rem; }
-.agx-pagelib-card p { margin-bottom: 1.25rem; color: var(--agx-text-faint); }
+.agx-pagelib-card p { margin-bottom: 1.25rem; color: var(--agx-soil-faint); }
 .agx-pagelib-number {
 	display: inline-block;
 	margin: 1rem 1.25rem -0.5rem;
-	font-family: var(--agx-font-heading);
-	color: var(--agx-gold-dark);
-	font-weight: 700;
+	font-family: var(--agx-font-display);
+	color: var(--agx-soil-faint);
+	font-weight: 600;
 }
 
-.agx-pagelib-hero { text-align: center; margin-bottom: 2rem; }
+.agx-pagelib-hero { text-align: left; margin-bottom: 2rem; }
 .agx-pagelib-hero img { aspect-ratio: 21/9; object-fit: cover; margin-bottom: 1.5rem; }
-.agx-pagelib-tagline { font-size: 1.15rem; color: var(--agx-text-softer); }
+.agx-pagelib-tagline { font-size: 1.15rem; color: var(--agx-soil-soft); }
 
-/* Marketing sub-line under a seeded page's title (see class-page-seeder.php) — a lead paragraph, not a second h1, since page.php already renders the page title. */
+/* Marketing sub-line under a seeded page's title — a lead paragraph, not a
+   second h1, since page.php already renders the page title. */
 .agx-page-tagline {
-	font-family: var(--agx-font-heading);
-	font-size: 1.25rem;
-	font-weight: 600;
-	color: var(--agx-forest-mid);
+	font-family: var(--agx-font-display);
+	font-size: 1.3rem;
+	font-weight: 500;
+	font-style: italic;
+	color: var(--agx-clay);
 	margin-bottom: 1.5rem;
+	max-width: 50ch;
 }
 
 .agx-mkt-grid, .agx-mkt-card, .agx-post-listing, .agx-service-fields {
 	/* layout inherited from plugin forms.css; theme only sets color/spacing context */
 }
 .agx-mkt-grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 1.5rem; }
-.agx-mkt-card { background: var(--agx-white); border: 1px solid var(--agx-bg-warm-3); border-radius: var(--agx-radius); padding: 1.25rem; }
-.agx-post-listing { background: var(--agx-bg-sage); border-radius: var(--agx-radius); padding: 1.5rem; margin-bottom: 1.5rem; }
+.agx-mkt-card { background: var(--agx-white); border: 1px solid var(--agx-line); border-radius: var(--agx-radius); padding: 1.25rem; }
+.agx-post-listing { background: var(--agx-cream); border-radius: var(--agx-radius); padding: 1.5rem; margin-bottom: 1.5rem; }
 
 /* ---- Footer ---- */
 
 .agx-site-footer {
-	background: var(--agx-forest-dark);
-	color: var(--agx-sage-pale);
+	background: var(--agx-indigo-deep);
+	color: #C7CDDC;
 	padding: 3.5rem 0 2rem;
+	border-top: 4px solid var(--agx-clay);
 }
 .agx-footer-grid {
 	display: grid;
@@ -349,16 +520,16 @@ img {
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	margin-bottom: 2rem;
 }
-.agx-footer-grid h4 { color: var(--agx-white); font-size: 0.95rem; margin-bottom: 0.9rem; }
+.agx-footer-grid h4 { color: var(--agx-white); font-size: 0.95rem; margin-bottom: 0.9rem; font-family: var(--agx-font-body); font-weight: 600; }
 .agx-footer-grid ul { list-style: none; margin: 0; padding: 0; }
 .agx-footer-grid li { margin-bottom: 0.5rem; }
-.agx-footer-grid a { color: var(--agx-sage-pale); text-decoration: none; font-size: 0.9rem; }
+.agx-footer-grid a { color: #C7CDDC; text-decoration: none; font-size: 0.9rem; }
 .agx-footer-grid a:hover { color: var(--agx-white); }
 .agx-footer-bottom {
-	border-top: 1px solid rgba(255,255,255,0.12);
+	border-top: 1px solid rgba(255,255,255,0.15);
 	padding-top: 1.5rem;
 	font-size: 0.8rem;
-	color: var(--agx-sage);
+	color: #8E96AC;
 	display: flex;
 	justify-content: space-between;
 	flex-wrap: wrap;

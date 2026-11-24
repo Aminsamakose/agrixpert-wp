@@ -22,32 +22,35 @@ get_header();
 <main>
 
 	<section class="agx-hero">
-		<div class="agx-container">
-			<span class="agx-eyebrow"><?php esc_html_e( 'Agricultural Value-Chain Integration', 'agrixpert-theme' ); ?></span>
-			<h1><?php esc_html_e( 'One platform connecting every actor in the agricultural value chain', 'agrixpert-theme' ); ?></h1>
-			<p><?php esc_html_e( 'AgriXpert links farmers, buyers, equipment and storage suppliers, and cooperatives so commodities move efficiently from production to market — with verification, bookings and a shared marketplace in one place.', 'agrixpert-theme' ); ?></p>
-			<div class="agx-cta-row">
-				<a class="agx-btn agx-btn-gold" href="<?php echo esc_url( home_url( '/for-farmers' ) ); ?>"><?php esc_html_e( 'I Want to Produce', 'agrixpert-theme' ); ?></a>
-				<a class="agx-btn agx-btn-outline" style="border-color:#fff;color:#fff;" href="<?php echo esc_url( home_url( '/for-buyers' ) ); ?>"><?php esc_html_e( 'I Want to Buy', 'agrixpert-theme' ); ?></a>
-				<a class="agx-btn agx-btn-outline" style="border-color:#fff;color:#fff;" href="<?php echo esc_url( home_url( '/marketplace' ) ); ?>"><?php esc_html_e( 'Browse the Marketplace', 'agrixpert-theme' ); ?></a>
+		<div class="agx-container agx-hero-inner">
+			<div class="agx-hero-copy">
+				<span class="agx-eyebrow"><?php esc_html_e( 'Agricultural value-chain integration', 'agrixpert-theme' ); ?></span>
+				<h1><?php esc_html_e( 'Every actor in the agricultural value chain, on one platform', 'agrixpert-theme' ); ?></h1>
+				<p><?php esc_html_e( 'AgriXpert links farmers, buyers, equipment and storage suppliers, and cooperatives so commodities move efficiently from production to market, with verification, bookings and a shared marketplace in one place.', 'agrixpert-theme' ); ?></p>
+				<div class="agx-cta-row">
+					<a class="agx-btn agx-btn-gold" href="<?php echo esc_url( home_url( '/for-farmers' ) ); ?>"><?php esc_html_e( 'I want to produce', 'agrixpert-theme' ); ?></a>
+					<a class="agx-btn agx-btn-outline" href="<?php echo esc_url( home_url( '/for-buyers' ) ); ?>"><?php esc_html_e( 'I want to buy', 'agrixpert-theme' ); ?></a>
+					<a class="agx-btn agx-btn-outline" href="<?php echo esc_url( home_url( '/marketplace' ) ); ?>"><?php esc_html_e( 'Browse the marketplace', 'agrixpert-theme' ); ?></a>
+				</div>
 			</div>
+			<div class="agx-hero-weave" role="presentation" aria-hidden="true"></div>
 		</div>
 	</section>
 
 	<section class="agx-section agx-section-warm">
 		<div class="agx-container">
-			<span class="agx-eyebrow"><?php esc_html_e( 'The Problem', 'agrixpert-theme' ); ?></span>
+			<span class="agx-eyebrow"><?php esc_html_e( 'The problem', 'agrixpert-theme' ); ?></span>
 			<h2><?php esc_html_e( "Ghana's agricultural value chains are fragmented", 'agrixpert-theme' ); ?></h2>
-			<div class="agx-grid">
-				<div class="agx-card">
+			<div class="agx-ledger">
+				<div class="agx-ledger-row agx-ledger-row--sorghum">
 					<h3><?php esc_html_e( 'Farmers can\'t reliably find buyers', 'agrixpert-theme' ); ?></h3>
 					<p><?php esc_html_e( 'Commodities go unsold or are sold below fair value because supply and demand rarely meet directly.', 'agrixpert-theme' ); ?></p>
 				</div>
-				<div class="agx-card">
+				<div class="agx-ledger-row agx-ledger-row--clay">
 					<h3><?php esc_html_e( 'Buyers struggle to source at scale', 'agrixpert-theme' ); ?></h3>
 					<p><?php esc_html_e( 'Aggregating quality-consistent volume from scattered smallholders takes time most buyers don\'t have.', 'agrixpert-theme' ); ?></p>
 				</div>
-				<div class="agx-card">
+				<div class="agx-ledger-row agx-ledger-row--indigo">
 					<h3><?php esc_html_e( 'Equipment and storage sit idle', 'agrixpert-theme' ); ?></h3>
 					<p><?php esc_html_e( 'Mechanisation and warehousing providers can\'t easily reach the farmers and cooperatives who need their capacity.', 'agrixpert-theme' ); ?></p>
 				</div>
@@ -57,27 +60,27 @@ get_header();
 
 	<section class="agx-section">
 		<div class="agx-container">
-			<span class="agx-eyebrow"><?php esc_html_e( 'How It Works', 'agrixpert-theme' ); ?></span>
+			<span class="agx-eyebrow"><?php esc_html_e( 'How it works', 'agrixpert-theme' ); ?></span>
 			<h2><?php esc_html_e( 'From registration to a completed transaction', 'agrixpert-theme' ); ?></h2>
-			<div class="agx-grid">
-				<div class="agx-card">
-					<div class="agx-step-number">01</div>
+			<div class="agx-process">
+				<div class="agx-process-step">
+					<span class="agx-step-number">01</span>
 					<h3><?php esc_html_e( 'Register', 'agrixpert-theme' ); ?></h3>
 					<p><?php esc_html_e( 'Farmers, buyers, suppliers and cooperatives register with the details relevant to their role.', 'agrixpert-theme' ); ?></p>
 				</div>
-				<div class="agx-card">
-					<div class="agx-step-number">02</div>
-					<h3><?php esc_html_e( 'Get Verified', 'agrixpert-theme' ); ?></h3>
+				<div class="agx-process-step">
+					<span class="agx-step-number">02</span>
+					<h3><?php esc_html_e( 'Get verified', 'agrixpert-theme' ); ?></h3>
 					<p><?php esc_html_e( 'The AgriXpert team reviews every registration before it can transact on the platform.', 'agrixpert-theme' ); ?></p>
 				</div>
-				<div class="agx-card">
-					<div class="agx-step-number">03</div>
-					<h3><?php esc_html_e( 'List or Search', 'agrixpert-theme' ); ?></h3>
-					<p><?php esc_html_e( 'Post what you have or need in the Marketplace — commodity, equipment or storage.', 'agrixpert-theme' ); ?></p>
+				<div class="agx-process-step">
+					<span class="agx-step-number">03</span>
+					<h3><?php esc_html_e( 'List or search', 'agrixpert-theme' ); ?></h3>
+					<p><?php esc_html_e( 'Post what you have or need in the marketplace: commodity, equipment or storage.', 'agrixpert-theme' ); ?></p>
 				</div>
-				<div class="agx-card">
-					<div class="agx-step-number">04</div>
-					<h3><?php esc_html_e( 'Connect and Transact', 'agrixpert-theme' ); ?></h3>
+				<div class="agx-process-step">
+					<span class="agx-step-number">04</span>
+					<h3><?php esc_html_e( 'Connect and transact', 'agrixpert-theme' ); ?></h3>
 					<p><?php esc_html_e( 'Express interest, book equipment or storage, and manage it all from your own Portal.', 'agrixpert-theme' ); ?></p>
 				</div>
 			</div>
@@ -86,7 +89,7 @@ get_header();
 
 	<section class="agx-section agx-section-sage">
 		<div class="agx-container">
-			<span class="agx-eyebrow"><?php esc_html_e( 'Value Chains', 'agrixpert-theme' ); ?></span>
+			<span class="agx-eyebrow"><?php esc_html_e( 'Value chains', 'agrixpert-theme' ); ?></span>
 			<h2><?php esc_html_e( 'Commodities AgriXpert supports', 'agrixpert-theme' ); ?></h2>
 			<?php echo do_shortcode( '[agrixpert_value_chains]' ); ?>
 		</div>
@@ -102,28 +105,28 @@ get_header();
 
 	<section class="agx-section agx-section-warm">
 		<div class="agx-container">
-			<span class="agx-eyebrow"><?php esc_html_e( 'Who It\'s For', 'agrixpert-theme' ); ?></span>
+			<span class="agx-eyebrow"><?php esc_html_e( 'Who it\'s for', 'agrixpert-theme' ); ?></span>
 			<h2><?php esc_html_e( 'Built for every actor in the chain', 'agrixpert-theme' ); ?></h2>
 			<div class="agx-grid">
-				<div class="agx-card">
+				<div class="agx-role-card agx-role-card--farmer">
 					<h3><?php esc_html_e( 'Farmers', 'agrixpert-theme' ); ?></h3>
 					<p><?php esc_html_e( 'List what you grow, connect to verified buyers, and manage bookings from your Portal.', 'agrixpert-theme' ); ?></p>
-					<p><a href="<?php echo esc_url( home_url( '/for-farmers' ) ); ?>"><?php esc_html_e( 'Register as a Farmer →', 'agrixpert-theme' ); ?></a></p>
+					<p><a href="<?php echo esc_url( home_url( '/for-farmers' ) ); ?>"><?php esc_html_e( 'Register as a farmer', 'agrixpert-theme' ); ?></a></p>
 				</div>
-				<div class="agx-card">
+				<div class="agx-role-card agx-role-card--buyer">
 					<h3><?php esc_html_e( 'Buyers', 'agrixpert-theme' ); ?></h3>
 					<p><?php esc_html_e( 'Source consistent volume and quality from a network of verified producers.', 'agrixpert-theme' ); ?></p>
-					<p><a href="<?php echo esc_url( home_url( '/for-buyers' ) ); ?>"><?php esc_html_e( 'Register as a Buyer →', 'agrixpert-theme' ); ?></a></p>
+					<p><a href="<?php echo esc_url( home_url( '/for-buyers' ) ); ?>"><?php esc_html_e( 'Register as a buyer', 'agrixpert-theme' ); ?></a></p>
 				</div>
-				<div class="agx-card">
+				<div class="agx-role-card agx-role-card--supplier">
 					<h3><?php esc_html_e( 'Suppliers', 'agrixpert-theme' ); ?></h3>
 					<p><?php esc_html_e( 'Offer mechanisation, storage, logistics or input-supply services to the whole network.', 'agrixpert-theme' ); ?></p>
-					<p><a href="<?php echo esc_url( home_url( '/marketplace' ) ); ?>"><?php esc_html_e( 'List Your Services →', 'agrixpert-theme' ); ?></a></p>
+					<p><a href="<?php echo esc_url( home_url( '/marketplace' ) ); ?>"><?php esc_html_e( 'List your services', 'agrixpert-theme' ); ?></a></p>
 				</div>
-				<div class="agx-card">
+				<div class="agx-role-card agx-role-card--cooperative">
 					<h3><?php esc_html_e( 'Cooperatives', 'agrixpert-theme' ); ?></h3>
 					<p><?php esc_html_e( 'Aggregate your members\' production and manage the group from one account.', 'agrixpert-theme' ); ?></p>
-					<p><a href="<?php echo esc_url( home_url( '/contact' ) ); ?>"><?php esc_html_e( 'Get in Touch →', 'agrixpert-theme' ); ?></a></p>
+					<p><a href="<?php echo esc_url( home_url( '/contact' ) ); ?>"><?php esc_html_e( 'Get in touch', 'agrixpert-theme' ); ?></a></p>
 				</div>
 			</div>
 		</div>
@@ -132,13 +135,20 @@ get_header();
 	<section class="agx-section agx-section-dark">
 		<div class="agx-container">
 			<span class="agx-eyebrow"><?php esc_html_e( 'Impact', 'agrixpert-theme' ); ?></span>
-			<h2><?php esc_html_e( 'Built for scale across Northern Ghana', 'agrixpert-theme' ); ?></h2>
-			<div class="agx-stats-grid">
-				<div><div class="agx-stat-number">5</div><div class="agx-stat-label"><?php esc_html_e( 'Value chains supported', 'agrixpert-theme' ); ?></div></div>
-				<div><div class="agx-stat-number">6</div><div class="agx-stat-label"><?php esc_html_e( 'Platform solutions', 'agrixpert-theme' ); ?></div></div>
-				<div><div class="agx-stat-number">4</div><div class="agx-stat-label"><?php esc_html_e( 'Actor types connected', 'agrixpert-theme' ); ?></div></div>
-				<div><div class="agx-stat-number">1</div><div class="agx-stat-label"><?php esc_html_e( 'Shared marketplace', 'agrixpert-theme' ); ?></div></div>
-			</div>
+			<p class="agx-impact-line">
+				<?php
+				echo wp_kses(
+					sprintf(
+						/* translators: 1: value chains count, 2: solutions count, 3: actor types count */
+						__( 'Built for scale across Northern Ghana: %1$s value chains, %2$s platform solutions and %3$s kinds of actor, meeting in one shared marketplace.', 'agrixpert-theme' ),
+						'<strong>' . esc_html__( 'five', 'agrixpert-theme' ) . '</strong>',
+						'<strong>' . esc_html__( 'six', 'agrixpert-theme' ) . '</strong>',
+						'<strong>' . esc_html__( 'four', 'agrixpert-theme' ) . '</strong>'
+					),
+					array( 'strong' => array() )
+				);
+				?>
+			</p>
 		</div>
 	</section>
 
