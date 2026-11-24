@@ -64,6 +64,13 @@ class AgriXpert_Marketplace_Shortcode {
 			echo '<div class="agx-field"><label>' . esc_html__( 'Location', 'agrixpert' ) . '</label><input type="text" name="location_label" /></div>';
 			echo '</div>';
 
+			echo '<div class="agx-field agx-geo-field">';
+			echo '<input type="hidden" name="latitude" id="agx-geo-lat" />';
+			echo '<input type="hidden" name="longitude" id="agx-geo-lng" />';
+			echo '<button type="button" class="button" onclick="agxPinMyLocation(this)">' . esc_html__( 'Pin my current GPS location', 'agrixpert' ) . '</button> ';
+			echo '<span class="agx-geo-status" aria-live="polite"></span>';
+			echo '</div>';
+
 			echo '<fieldset class="agx-service-fields"><legend>' . esc_html__( 'If this is an equipment service listing', 'agrixpert' ) . '</legend>';
 			echo '<input type="text" name="equipment_type" placeholder="' . esc_attr__( 'Equipment type, e.g. Tractor', 'agrixpert' ) . '" /> ';
 			echo '<input type="text" name="equipment_capacity" placeholder="' . esc_attr__( 'Capacity spec', 'agrixpert' ) . '" /> ';
@@ -110,7 +117,12 @@ class AgriXpert_Marketplace_Shortcode {
 		echo '<h4>' . esc_html( $listing->commodity ?: ucfirst( $listing->listing_type ) ) . '</h4>';
 		echo '<p>' . esc_html( ucfirst( $listing->listing_type ) ) . ( $listing->quantity ? ' &middot; ' . esc_html( $listing->quantity . ' ' . $listing->unit ) : '' ) . '</p>';
 		if ( $listing->location_label ) {
-			echo '<p class="agx-mkt-location">' . esc_html( $listing->location_label ) . '</p>';
+			echo '<p class="agx-mkt-location">' . esc_html( $listing->location_label );
+			if ( $listing->latitude !== null && $listing->longitude !== null ) {
+				$map_url = 'https://www.google.com/maps?q=' . rawurlencode( $listing->latitude . ',' . $listing->longitude );
+				echo ' &middot; <a href="' . esc_url( $map_url ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'View on map', 'agrixpert' ) . '</a>';
+			}
+			echo '</p>';
 		}
 		if ( $listing->price_indication ) {
 			echo '<p>' . esc_html( $listing->price_indication ) . '</p>';
@@ -175,6 +187,8 @@ class AgriXpert_Marketplace_Shortcode {
 			'unit'             => sanitize_text_field( wp_unslash( $_POST['unit'] ?? '' ) ),
 			'price_indication' => sanitize_text_field( wp_unslash( $_POST['price_indication'] ?? '' ) ),
 			'location_label'   => sanitize_text_field( wp_unslash( $_POST['location_label'] ?? '' ) ),
+			'latitude'         => is_numeric( $_POST['latitude'] ?? '' ) ? (float) $_POST['latitude'] : null,
+			'longitude'        => is_numeric( $_POST['longitude'] ?? '' ) ? (float) $_POST['longitude'] : null,
 		);
 		if ( ! empty( $_POST['equipment_type'] ) ) {
 			$v['equipment'] = array(

@@ -107,6 +107,24 @@ class AgriXpert_Registrations {
 	 * actor can't silently detach themselves from their own linked
 	 * record or collide with another one by editing it here.
 	 */
+	/**
+	 * Fixed category list, kept identical to the live Next.js app's
+	 * supplierServiceCategories (src/app/portal/page.tsx) so a supplier's
+	 * self-edited services here mean the same thing as on the original
+	 * site.
+	 */
+	public static function supplier_service_categories() {
+		return array(
+			__( 'Mechanisation & Farm Equipment', 'agrixpert' ),
+			__( 'Input Supply (seeds, fertiliser, agrochemicals)', 'agrixpert' ),
+			__( 'Logistics & Transportation', 'agrixpert' ),
+			__( 'Storage & Warehousing', 'agrixpert' ),
+			__( 'Processing Equipment & Technology', 'agrixpert' ),
+			__( 'Financial Services', 'agrixpert' ),
+			__( 'Other', 'agrixpert' ),
+		);
+	}
+
 	public static function editable_fields( $type ) {
 		switch ( $type ) {
 			case 'farmer':
@@ -125,6 +143,12 @@ class AgriXpert_Registrations {
 			case 'supplier':
 				return array(
 					array( 'name' => 'phone', 'label' => __( 'Phone Number', 'agrixpert' ), 'type' => 'tel' ),
+					array(
+						'name'    => 'services',
+						'label'   => __( 'Services You Provide', 'agrixpert' ),
+						'type'    => 'checkbox-group',
+						'options' => self::supplier_service_categories(),
+					),
 				);
 			case 'cooperative':
 				return array(
@@ -152,6 +176,16 @@ class AgriXpert_Registrations {
 		$table  = AgriXpert_Verification::table_for( $type );
 		$values = array();
 		foreach ( self::editable_fields( $type ) as $field ) {
+			if ( $field['type'] === 'checkbox-group' ) {
+				// Posted as an array of checked values (or absent entirely if
+				// none are checked) — never trust it against the option list,
+				// since a tampered request could post an arbitrary string.
+				$posted_raw = isset( $posted[ $field['name'] ] ) ? (array) wp_unslash( $posted[ $field['name'] ] ) : array();
+				$allowed    = $field['options'] ?? array();
+				$selected   = array_values( array_intersect( array_map( 'sanitize_text_field', $posted_raw ), $allowed ) );
+				$values[ $field['name'] ] = wp_json_encode( $selected );
+				continue;
+			}
 			$raw = isset( $posted[ $field['name'] ] ) ? wp_unslash( $posted[ $field['name'] ] ) : '';
 			switch ( $field['type'] ) {
 				case 'number':

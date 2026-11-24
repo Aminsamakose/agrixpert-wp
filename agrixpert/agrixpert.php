@@ -56,6 +56,7 @@ add_action( 'plugins_loaded', function () {
 add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'agrixpert-forms', AGRIXPERT_PLUGIN_URL . 'assets/css/forms.css', array(), AGRIXPERT_VERSION );
 	wp_enqueue_style( 'agrixpert-page-library', AGRIXPERT_PLUGIN_URL . 'assets/css/page-library.css', array(), AGRIXPERT_VERSION );
+	wp_enqueue_script( 'agrixpert-marketplace-geo', AGRIXPERT_PLUGIN_URL . 'assets/js/marketplace-geo.js', array(), AGRIXPERT_VERSION, true );
 } );
 
 /**

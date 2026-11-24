@@ -104,11 +104,17 @@ class AgriXpert_Form_Engine {
 
 						<?php elseif ( $field['type'] === 'checkbox_group' ) :
 							$options = $field['options'] === '__value_chains__' ? self::get_value_chains() : $field['options'];
+							// Pre-check an option matching ?commodity= on the URL — this is
+							// how the value-chain pages' "I Want to Produce"/"I Want to Buy"
+							// CTAs (see class-page-library-shortcodes.php) hand off a
+							// commodity to this form, mirroring the live Next.js app's
+							// ValueChainCtas -> /for-farmers?commodity=... flow.
+							$prefill = isset( $_GET['commodity'] ) ? sanitize_text_field( wp_unslash( $_GET['commodity'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only prefill, not a state change
 							?>
 							<div class="agx-checkbox-group">
 								<?php foreach ( $options as $opt ) : ?>
 									<label class="agx-checkbox">
-										<input type="checkbox" name="<?php echo esc_attr( $field['name'] ); ?>[]" value="<?php echo esc_attr( $opt ); ?>" />
+										<input type="checkbox" name="<?php echo esc_attr( $field['name'] ); ?>[]" value="<?php echo esc_attr( $opt ); ?>"<?php echo ( $prefill && strcasecmp( $prefill, $opt ) === 0 ) ? ' checked' : ''; ?> />
 										<?php echo esc_html( $opt ); ?>
 									</label>
 								<?php endforeach; ?>

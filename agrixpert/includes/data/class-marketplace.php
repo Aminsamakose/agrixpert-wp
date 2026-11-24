@@ -66,6 +66,8 @@ class AgriXpert_Marketplace {
 			'price_indication' => $v['price_indication'] ?: null,
 			'quality_grade'    => $v['quality_grade'] ?: null,
 			'location_label'   => $v['location_label'] ?: null,
+			'latitude'         => isset( $v['latitude'] ) && $v['latitude'] !== '' ? (float) $v['latitude'] : null,
+			'longitude'        => isset( $v['longitude'] ) && $v['longitude'] !== '' ? (float) $v['longitude'] : null,
 		) );
 		if ( $ok === false ) {
 			return new WP_Error( 'agx_insert_failed', $wpdb->last_error );
@@ -87,6 +89,8 @@ class AgriXpert_Marketplace {
 				'total_capacity_tonnes'  => $v['storage']['total_capacity_tonnes'],
 				'commodity_compatibility'=> wp_json_encode( $v['storage']['commodity_compatibility'] ?? array() ),
 				'location_label'         => $v['location_label'] ?: null,
+				'latitude'               => isset( $v['latitude'] ) && $v['latitude'] !== '' ? (float) $v['latitude'] : null,
+				'longitude'              => isset( $v['longitude'] ) && $v['longitude'] !== '' ? (float) $v['longitude'] : null,
 			) );
 		}
 

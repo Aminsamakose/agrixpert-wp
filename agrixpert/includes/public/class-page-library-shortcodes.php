@@ -82,8 +82,30 @@ class AgriXpert_Page_Library_Shortcodes {
 		self::market_section( $vc['markets'] ?? array() );
 		self::list_section( __( 'Partnerships', 'agrixpert' ), $vc['partnerships'] ?? array(), 'items' );
 		self::closing( $vc['closing'] ?? array() );
+		self::value_chain_ctas( $vc['name'] ?? '' );
 		echo '</div>';
 		return ob_get_clean();
+	}
+
+	/**
+	 * The three commodity-prefilled action buttons every value-chain page
+	 * ends with, matching ValueChainCtas.tsx in the live app exactly (same
+	 * three destinations, same commodity query param). Unlike a solution's
+	 * `closing.ctas`, these are not stored in the JSON data — the live
+	 * component generates them from the page's own commodity name, so this
+	 * does the same rather than requiring every value-chains.json entry to
+	 * repeat identical CTA data.
+	 */
+	private static function value_chain_ctas( $commodity ) {
+		if ( ! $commodity ) {
+			return;
+		}
+		$q = rawurlencode( $commodity );
+		echo '<section class="agx-pagelib-section agx-pagelib-cta-row">';
+		echo '<a class="agx-pagelib-cta agx-cta-primary" href="' . esc_url( home_url( '/for-farmers?commodity=' . $q ) . '#register' ) . '"><span>' . esc_html__( 'I Want to Produce', 'agrixpert' ) . '</span><small>' . esc_html( sprintf( __( 'Register as a %s farmer', 'agrixpert' ), strtolower( $commodity ) ) ) . '</small></a>';
+		echo '<a class="agx-pagelib-cta agx-cta-gold" href="' . esc_url( home_url( '/for-buyers?commodity=' . $q ) . '#enquiry' ) . '"><span>' . esc_html__( 'I Want to Buy', 'agrixpert' ) . '</span><small>' . esc_html__( 'Submit a sourcing request', 'agrixpert' ) . '</small></a>';
+		echo '<a class="agx-pagelib-cta agx-cta-outline" href="' . esc_url( home_url( '/contact?type=' . rawurlencode( 'Partnership & Investment' ) . '&commodity=' . $q ) . '#form' ) . '"><span>' . esc_html__( 'I Want to Partner', 'agrixpert' ) . '</span><small>' . esc_html__( 'Explore a commercial partnership', 'agrixpert' ) . '</small></a>';
+		echo '</section>';
 	}
 
 	public static function solution_single( $atts ) {

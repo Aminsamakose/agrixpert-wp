@@ -104,6 +104,22 @@
 	color: inherit;
 }
 
+.agx-pagelib-cta.agx-cta-primary {
+	background: #1f5133;
+	color: #fff;
+}
+
+.agx-pagelib-cta.agx-cta-gold {
+	background: #e3a008;
+	color: #1f2d1a;
+}
+
+.agx-pagelib-cta.agx-cta-outline {
+	background: transparent;
+	border: 2px solid #1f5133;
+	color: #1f5133;
+}
+
 .agx-pagelib-cta small {
 	opacity: 0.7;
 	font-size: 0.75rem;

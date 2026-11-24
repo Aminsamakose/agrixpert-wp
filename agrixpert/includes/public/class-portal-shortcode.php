@@ -118,7 +118,19 @@ class AgriXpert_Portal_Shortcode {
 				$current = $row->{$field['name']} ?? '';
 				echo '<div class="agx-field">';
 				echo '<label for="agx-portal-' . esc_attr( $field['name'] ) . '-' . esc_attr( $row->id ) . '">' . esc_html( $field['label'] ) . '</label>';
-				if ( $field['type'] === 'textarea' ) {
+				if ( $field['type'] === 'checkbox-group' ) {
+					$selected = json_decode( (string) $current, true );
+					$selected = is_array( $selected ) ? $selected : array();
+					echo '<div class="agx-checkbox-group">';
+					foreach ( (array) ( $field['options'] ?? array() ) as $i => $option ) {
+						$cb_id = 'agx-portal-' . esc_attr( $field['name'] ) . '-' . esc_attr( $row->id ) . '-' . esc_attr( $i );
+						echo '<label class="agx-checkbox">';
+						echo '<input type="checkbox" id="' . $cb_id . '" name="' . esc_attr( $field['name'] ) . '[]" value="' . esc_attr( $option ) . '"' . ( in_array( $option, $selected, true ) ? ' checked' : '' ) . ' />';
+						echo ' ' . esc_html( $option );
+						echo '</label>';
+					}
+					echo '</div>';
+				} elseif ( $field['type'] === 'textarea' ) {
 					echo '<textarea id="agx-portal-' . esc_attr( $field['name'] ) . '-' . esc_attr( $row->id ) . '" name="' . esc_attr( $field['name'] ) . '" rows="3">' . esc_textarea( $current ) . '</textarea>';
 				} else {
 					echo '<input id="agx-portal-' . esc_attr( $field['name'] ) . '-' . esc_attr( $row->id ) . '" name="' . esc_attr( $field['name'] ) . '" type="' . esc_attr( $field['type'] ) . '" value="' . esc_attr( $current ) . '"'
