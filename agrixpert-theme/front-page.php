@@ -37,6 +37,20 @@ get_header();
 		</div>
 	</section>
 
+	<section class="agx-section-tight agx-partners">
+		<div class="agx-container">
+			<p class="agx-partners-label"><?php esc_html_e( 'Built alongside Northern Ghana\'s agricultural development partners', 'agrixpert-theme' ); ?></p>
+			<ul class="agx-partners-row">
+				<li><?php esc_html_e( 'GIZ', 'agrixpert-theme' ); ?></li>
+				<li><?php esc_html_e( 'UNDP', 'agrixpert-theme' ); ?></li>
+				<li><?php esc_html_e( 'Mastercard Foundation', 'agrixpert-theme' ); ?></li>
+				<li><?php esc_html_e( 'Global Shea Alliance', 'agrixpert-theme' ); ?></li>
+				<li><?php esc_html_e( 'iValley Ghana', 'agrixpert-theme' ); ?></li>
+				<li><?php esc_html_e( 'Kosmos Innovation Centre', 'agrixpert-theme' ); ?></li>
+			</ul>
+		</div>
+	</section>
+
 	<section class="agx-section agx-section-warm">
 		<div class="agx-container">
 			<span class="agx-eyebrow"><?php esc_html_e( 'The problem', 'agrixpert-theme' ); ?></span>
@@ -134,28 +148,58 @@ get_header();
 
 	<section class="agx-section agx-section-dark">
 		<div class="agx-container">
-			<span class="agx-eyebrow"><?php esc_html_e( 'Impact', 'agrixpert-theme' ); ?></span>
-			<p class="agx-impact-line">
-				<?php
-				echo wp_kses(
-					sprintf(
-						/* translators: 1: value chains count, 2: solutions count, 3: actor types count */
-						__( 'Built for scale across Northern Ghana: %1$s value chains, %2$s platform solutions and %3$s kinds of actor, meeting in one shared marketplace.', 'agrixpert-theme' ),
-						'<strong>' . esc_html__( 'five', 'agrixpert-theme' ) . '</strong>',
-						'<strong>' . esc_html__( 'six', 'agrixpert-theme' ) . '</strong>',
-						'<strong>' . esc_html__( 'four', 'agrixpert-theme' ) . '</strong>'
-					),
-					array( 'strong' => array() )
-				);
-				?>
-			</p>
+			<span class="agx-eyebrow"><?php esc_html_e( 'Built for scale', 'agrixpert-theme' ); ?></span>
+			<h2><?php esc_html_e( 'One platform, every part of the chain', 'agrixpert-theme' ); ?></h2>
+			<div class="agx-stats-band">
+				<div class="agx-stat">
+					<span class="agx-stat-number">5</span>
+					<span class="agx-stat-label"><?php esc_html_e( 'Value chains supported', 'agrixpert-theme' ); ?></span>
+				</div>
+				<div class="agx-stat">
+					<span class="agx-stat-number">6</span>
+					<span class="agx-stat-label"><?php esc_html_e( 'Platform solutions', 'agrixpert-theme' ); ?></span>
+				</div>
+				<div class="agx-stat">
+					<span class="agx-stat-number">4</span>
+					<span class="agx-stat-label"><?php esc_html_e( 'Actor types connected', 'agrixpert-theme' ); ?></span>
+				</div>
+				<div class="agx-stat">
+					<span class="agx-stat-number">1</span>
+					<span class="agx-stat-label"><?php esc_html_e( 'Shared marketplace', 'agrixpert-theme' ); ?></span>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="agx-section">
+		<div class="agx-container">
+			<span class="agx-eyebrow"><?php esc_html_e( 'Common questions', 'agrixpert-theme' ); ?></span>
+			<h2><?php esc_html_e( 'Before you register', 'agrixpert-theme' ); ?></h2>
+			<div class="agx-faq">
+				<details class="agx-faq-item">
+					<summary><?php esc_html_e( 'Is it free to join AgriXpert?', 'agrixpert-theme' ); ?></summary>
+					<p><?php esc_html_e( 'Yes. Access to the platform is currently free. Fees for specific facilitated services, such as mechanisation or aggregation, are agreed with you separately before that service is provided.', 'agrixpert-theme' ); ?></p>
+				</details>
+				<details class="agx-faq-item">
+					<summary><?php esc_html_e( 'How do I know the people I\'m dealing with are genuine?', 'agrixpert-theme' ); ?></summary>
+					<p><?php esc_html_e( 'The AgriXpert team reviews every registration before it is verified and able to transact on the platform, whether that\'s a farmer, buyer, supplier or cooperative.', 'agrixpert-theme' ); ?></p>
+				</details>
+				<details class="agx-faq-item">
+					<summary><?php esc_html_e( 'Does AgriXpert handle payment between buyers and sellers?', 'agrixpert-theme' ); ?></summary>
+					<p><?php esc_html_e( 'No. AgriXpert connects you and lets you express interest or book equipment and storage directly. Payment is arranged between the parties themselves, outside the platform.', 'agrixpert-theme' ); ?></p>
+				</details>
+				<details class="agx-faq-item">
+					<summary><?php esc_html_e( 'What happens after I register?', 'agrixpert-theme' ); ?></summary>
+					<p><?php esc_html_e( 'Your registration is reviewed for verification. Once verified, you can list or search the Marketplace and manage everything from your own Portal.', 'agrixpert-theme' ); ?></p>
+				</details>
+			</div>
 		</div>
 	</section>
 
 	<section class="agx-section agx-section-sage" style="text-align:center;">
 		<div class="agx-container">
 			<h2><?php esc_html_e( 'Already registered?', 'agrixpert-theme' ); ?></h2>
-			<p><?php esc_html_e( 'Sign in to your Portal to check your verification status, manage your listings and bookings, and update your details.', 'agrixpert-theme' ); ?></p>
+			<p style="margin-left:auto;margin-right:auto;"><?php esc_html_e( 'Sign in to your Portal to check your verification status, manage your listings and bookings, and update your details.', 'agrixpert-theme' ); ?></p>
 			<a class="agx-btn agx-btn-primary" href="<?php echo esc_url( home_url( '/portal' ) ); ?>"><?php esc_html_e( 'Go to My Portal', 'agrixpert-theme' ); ?></a>
 		</div>
 	</section>

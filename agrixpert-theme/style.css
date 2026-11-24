@@ -4,7 +4,7 @@ Theme URI: https://agrixpert.samakose.com
 Author: Samakose Accelerator Lab
 Author URI: https://www.samakose.com
 Description: Theme for AgriXpert, Samakose's agricultural value-chain integration platform. Pairs with the AgriXpert plugin (data, forms, marketplace, portal) — this theme supplies the visual shell only: header, footer, page templates and the one-page "whole system" home layout. Visual identity grounded in Northern Ghana's own material palette — laterite clay, indigo-dyed smock cloth, sorghum and shea — rather than a generic tech-green look.
-Version: 1.1.0
+Version: 1.2.0
 Requires at least: 6.0
 Requires PHP: 7.4
 License: GNU General Public License v2 or later
@@ -325,6 +325,34 @@ img {
 	.agx-hero-weave { height: 160px; }
 }
 
+/* ---- Partners strip ---- */
+
+.agx-partners {
+	border-bottom: 1px solid var(--agx-line);
+	background: var(--agx-paper);
+}
+.agx-partners-label {
+	font-size: 0.85rem;
+	color: var(--agx-soil-faint);
+	margin-bottom: 1rem;
+	max-width: none;
+}
+.agx-partners-row {
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem 2.5rem;
+	margin: 0;
+	padding: 0;
+}
+.agx-partners-row li {
+	font-family: var(--agx-font-display);
+	font-style: italic;
+	font-weight: 500;
+	font-size: 1.05rem;
+	color: var(--agx-indigo);
+}
+
 .agx-grid {
 	display: grid;
 	gap: 1.5rem;
@@ -422,22 +450,72 @@ img {
 .agx-role-card h3 { margin-bottom: 0.4rem; }
 .agx-role-card p { margin-bottom: 0; color: var(--agx-soil-soft); }
 
-/* ---- Impact: one flowing editorial line instead of big-number stat tiles. ---- */
+/* ---- Stats band: bold figures, set apart by rule rather than identical
+   card tiles — each number keeps its own column but the row reads as one
+   continuous strip. ---- */
 
-.agx-impact-line {
-	font-family: var(--agx-font-display);
-	font-size: clamp(1.4rem, 2.6vw, 2.1rem);
-	font-weight: 400;
-	font-style: italic;
-	line-height: 1.5;
-	color: var(--agx-white);
-	max-width: 46ch;
+.agx-stats-band {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	border-top: 1px solid rgba(255,255,255,0.18);
+	margin-top: 1rem;
 }
-.agx-impact-line strong {
-	font-style: normal;
-	font-weight: 600;
+.agx-stat {
+	padding: 1.75rem 1.5rem 0.25rem 0;
+	border-right: 1px solid rgba(255,255,255,0.18);
+}
+.agx-stat:last-child { border-right: none; }
+.agx-stat-number {
+	display: block;
+	font-family: var(--agx-font-display);
+	font-size: clamp(2.6rem, 5vw, 3.6rem);
+	font-weight: 500;
 	color: var(--agx-sorghum);
-	border-bottom: 2px solid var(--agx-sorghum);
+	line-height: 1;
+	margin-bottom: 0.5rem;
+}
+.agx-stat-label {
+	display: block;
+	font-size: 0.92rem;
+	color: #C7CDDC;
+}
+@media (max-width: 720px) {
+	.agx-stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.18); padding-bottom: 1.5rem; }
+}
+
+/* ---- FAQ: native <details>/<summary>, no JS needed ---- */
+
+.agx-faq {
+	max-width: 760px;
+	border-top: 1px solid var(--agx-line);
+}
+.agx-faq-item {
+	border-bottom: 1px solid var(--agx-line);
+	padding: 1.1rem 0;
+}
+.agx-faq-item summary {
+	font-family: var(--agx-font-display);
+	font-size: 1.1rem;
+	font-weight: 500;
+	color: var(--agx-indigo);
+	cursor: pointer;
+	list-style: none;
+	position: relative;
+	padding-right: 2rem;
+}
+.agx-faq-item summary::-webkit-details-marker { display: none; }
+.agx-faq-item summary::after {
+	content: "+";
+	position: absolute;
+	right: 0;
+	top: 0;
+	font-size: 1.3rem;
+	color: var(--agx-clay);
+}
+.agx-faq-item[open] summary::after { content: "–"; }
+.agx-faq-item p {
+	margin: 0.85rem 0 0;
+	color: var(--agx-soil-soft);
 }
 
 /* ---- Plugin content pages (marketplace, portal, value-chain grids) ---- */
