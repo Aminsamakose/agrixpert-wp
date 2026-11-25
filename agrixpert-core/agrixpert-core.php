@@ -3,7 +3,7 @@
  * Plugin Name: AgriXpert Core
  * Plugin URI: https://agrixpert.samakose.com
  * Description: Agricultural value-chain integration platform (farmer/buyer/supplier/cooperative registration, verification, marketplace, CRM, notifications) rebuilt natively for WordPress, per the AgriXpert Master Software Reconstruction specification.
- * Version: 2.3.0
+ * Version: 2.3.1
  * Author: Samakose Accelerator Lab
  * Text Domain: agrixpert
  * Requires at least: 6.4
@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // No direct access.
 }
 
-define( 'AGRIXPERT_VERSION', '2.3.0' );
+define( 'AGRIXPERT_VERSION', '2.3.1' );
 define( 'AGRIXPERT_PLUGIN_FILE', __FILE__ );
 define( 'AGRIXPERT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'AGRIXPERT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

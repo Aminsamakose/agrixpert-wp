@@ -33,6 +33,23 @@ if ( ! class_exists( 'WP_UnitTestCase' ) ) {
 	return; // Loaded outside the WP test harness — nothing to run here.
 }
 
+/**
+ * Thrown by AgriXpert_Registration_Auth_Test::intercept_redirect() to stop
+ * execution at the wp_safe_redirect() call inside
+ * maybe_create_account_and_login(), before it reaches exit(). Same
+ * principle WordPress core's own test suite uses for wp_die() via
+ * WPDieException — the filter callback runs synchronously inside
+ * wp_redirect(), so throwing there unwinds the call stack safely instead
+ * of letting the real exit() kill the test process.
+ */
+class AgriXpert_Redirect_Exception extends Exception {
+	public $location;
+	public function __construct( $location ) {
+		parent::__construct( 'AgriXpert test: redirect intercepted.' );
+		$this->location = $location;
+	}
+}
+
 class AgriXpert_Registration_Auth_Test extends WP_UnitTestCase {
 
 	private function submit( $form_id, array $values ) {
@@ -83,22 +100,52 @@ class AgriXpert_Registration_Auth_Test extends WP_UnitTestCase {
 
 	/**
 	 * (4) The happy path: a brand-new email on a stakeholder form creates
-	 * an account, logs the visitor in, and leaves verification untouched.
+	 * an account, logs the visitor in, links the registration row, and
+	 * redirects to the Portal — all without leaving verification status
+	 * touched (not asserted here directly; covered by the fact that
+	 * create_account() never writes to verification_status at all, which
+	 * a `grep` of the method confirms).
 	 *
-	 * Note: this stops short of asserting the wp_safe_redirect()/exit()
-	 * at the end of maybe_create_account_and_login(), since exit() inside
-	 * a PHPUnit test process is destructive. A real run of this test
-	 * should use WP's sendRedirect-interception helpers
-	 * (expectException( WPDieException::class ) pattern or
-	 * `add_filter('wp_redirect', ...)` with `wp_die` swapped for a
-	 * testable no-op) to capture and assert the redirect target instead
-	 * of letting it fire. That wiring is left for whoever runs this
-	 * against a real harness, since it depends on which WP test
-	 * scaffold version is in use.
+	 * The wp_safe_redirect()/exit() pair at the end of
+	 * maybe_create_account_and_login() is intercepted via the
+	 * 'wp_redirect' filter throwing AgriXpert_Redirect_Exception, so the
+	 * real exit() is never reached and the test process survives.
 	 */
 	public function test_new_stakeholder_email_creates_and_logs_in_account() {
-		$this->markTestIncomplete(
-			'Needs the redirect/exit interception described in this method\'s docblock, wired up against the actual WP test scaffold in use, before it can run to completion without exiting the test process.'
+		$before_user_count = count( get_users() );
+
+		add_filter( 'wp_redirect', array( $this, 'intercept_redirect' ) );
+		try {
+			$this->submit( 'farmer', array(
+				'fullName' => 'Kofi Mensah',
+				'email'    => 'kofi.mensah@example.com',
+			) );
+			$this->fail( 'Expected AgriXpert_Redirect_Exception to be thrown before exit() was reached.' );
+		} catch ( AgriXpert_Redirect_Exception $e ) {
+			$this->assertStringContainsString( '/portal', $e->location, 'Should redirect to the Portal.' );
+			$this->assertStringContainsString( 'agx_welcome=farmer', $e->location, 'Redirect should carry the welcome flag naming the stakeholder type.' );
+		} finally {
+			remove_filter( 'wp_redirect', array( $this, 'intercept_redirect' ) );
+		}
+
+		$this->assertCount( $before_user_count + 1, get_users(), 'Exactly one new WP user should have been created.' );
+
+		$user = get_user_by( 'email', 'kofi.mensah@example.com' );
+		$this->assertNotFalse( $user, 'The new account should be findable by the email just registered with.' );
+		$this->assertContains(
+			AgriXpert_Roles::STAKEHOLDER_ROLES['farmer'],
+			$user->roles,
+			'The new account should carry the farmer stakeholder role, not a generic default.'
 		);
+		$this->assertSame(
+			$user->ID,
+			get_current_user_id(),
+			'The visitor should already be logged in as the new account for this request, per spec 7.1 — no separate login step.'
+		);
+	}
+
+	/** Filter callback for 'wp_redirect' — see AgriXpert_Redirect_Exception's docblock above. */
+	public function intercept_redirect( $location ) {
+		throw new AgriXpert_Redirect_Exception( $location );
 	}
 }
